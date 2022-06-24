@@ -22,9 +22,19 @@ export function TypeComponent({ img, typeLabel, advantages, disadvantages }: Typ
     }
   }
 
-  // useEffect(() => {
-  //   console.log(selected);
-  // }, [selected])
+  function handleTypeRender(typeArray: Array<string>) {
+    if (typeArray.length < 1) {
+      return (
+        <span>None</span>
+      )
+    } else {
+      return (
+        typeArray.map((item, index) => (
+          <img key={index} src={`assets/${item}.png`} alt={item} />
+        ))
+      )
+    }
+  }
 
   return (
     <Container
@@ -40,18 +50,15 @@ export function TypeComponent({ img, typeLabel, advantages, disadvantages }: Typ
 
           <strong>{typeLabel}</strong>
           <span className="green">Strong Against</span>
-          {advantages.map((item, index) => (
-            <Advantages break={advantages.length}>
-              <img key={index} src={`assets/${item}.png`} alt={item} />
-            </Advantages>
-          ))}
+          <Advantages break={advantages.length}>
+            {handleTypeRender(advantages)}
+          </Advantages>
 
           <span className="red">Weak Against</span>
-          {disadvantages.map((item, index) => (
-            <Disadvantages break={disadvantages.length}>
-              <img key={index} src={`assets/${item}.png`} alt={item} />
-            </Disadvantages>
-          ))}
+          <Disadvantages break={disadvantages.length}>
+            {handleTypeRender(disadvantages)}
+          </Disadvantages>
+          <p>{"< tap to close >"}</p>
         </div>
       </Modal>
 
@@ -84,7 +91,7 @@ const TypeIcon = styled.img`
   width: 100%;
 `;
 
-const Modal = styled.ul<any>`
+const Modal = styled.div<any>`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -95,7 +102,7 @@ const Modal = styled.ul<any>`
   
   padding: 0rem;
   background-color: #fff;
-  border-radius: 20px;
+  border-radius: 150px;
   box-shadow: 0px 3px 15px rgba(0,0,0,0.35);
   
   position: absolute;
@@ -105,11 +112,12 @@ const Modal = styled.ul<any>`
   transform: translateY(-50%);
   z-index: 30;  
   
-  transition: 0.5s;
+  transition: 0.3s;
   
   &.active {
     max-height: 320px;
     padding: 1rem;
+    border-radius: 6px;
   }
   
   & > div.content {
@@ -119,8 +127,16 @@ const Modal = styled.ul<any>`
     align-items: center;
   }
 
+  @media (max-width: 768px) {
+    left: -10%;
+  }
+  p {
+    font-size: 0.875rem;
+    color: ${props => props.theme.color.gray[200]};
+  }
+
   span {
-    color: #737373;
+    color: ${props => props.theme.color.gray[200]};
     padding: 2px 8px;
     border-radius: 50px;
     font-size: 1rem;
@@ -129,13 +145,17 @@ const Modal = styled.ul<any>`
     
     &.green {
       color: #fff;
-      background-color: ${props => props.theme.color.green[100]};
+      background: linear-gradient(90deg, ${props => props.theme.color.greenLight[100]} 10%, ${props => props.theme.color.green[100]} 60%);
       margin-top: 0;
     }
     &.red {
       color: #fff;
-      background-color: ${props => props.theme.color.red[100]};
+      background: linear-gradient(90deg, ${props => props.theme.color.red[50]} 10%, ${props => props.theme.color.red[300]} 60%);
       margin-top: 0;
+    }
+
+    @media (max-width: 375px) {
+      font-size: 0.875rem;
     }
   }  
   
@@ -147,7 +167,7 @@ const Modal = styled.ul<any>`
   }
 `;
 
-const Advantages = styled.li<any>`
+const Advantages = styled.div<any>`
   display: grid;
 
   grid-template-columns: repeat(${props => props.break <= 4 ? props.break : 3}, 1fr);

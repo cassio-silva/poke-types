@@ -9,7 +9,7 @@ export default createGlobalStyle`
 
   body {
     font-family: ${props => props.theme.font.Roboto};
-    background-color: ${props => props.theme.color.blue[300]};
+    background-color: ${props => props.theme.color.green[200]};
     overflow-x: hidden;
   }
 

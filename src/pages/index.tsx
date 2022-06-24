@@ -2,8 +2,10 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useEffect, useState } from 'react';
 import styled from 'styled-components'
+import { Navbar } from '../components/Navbar';
 import { SearchInput } from '../components/SearchInput';
 import { TypeComponent } from '../components/TypeComponent';
+import { GlobalContainer, Title } from '../styles/GlobalComponentStyles';
 
 type TypeAdvantages = {
   typeLabel: string;
@@ -45,7 +47,7 @@ const Home: NextPage = () => {
       typeLabel: "steel",
       img: "assets/steel.png",
       advantages: ["fairy", "ice", "rock"],
-      disadvantages: ["fighting", "fire", "earth"]
+      disadvantages: ["fighting", "fire", "ground"]
     },
     {
       typeLabel: "fairy",
@@ -69,19 +71,19 @@ const Home: NextPage = () => {
       typeLabel: "fire",
       img: "assets/fire.png",
       advantages: ["bug", "grass", "ice", "steel"],
-      disadvantages: ["earth", "rock", "water"]
+      disadvantages: ["ground", "rock", "water"]
     },
     {
       typeLabel: "water",
       img: "assets/water.png",
-      advantages: ["earth", "rock", "fire"],
+      advantages: ["ground", "rock", "fire"],
       disadvantages: ["electric", "grass"]
     },
     {
       typeLabel: "electric",
       img: "assets/electric.png",
       advantages: ["flying", "water"],
-      disadvantages: ["earth"]
+      disadvantages: ["ground"]
     },
     {
       typeLabel: "flying",
@@ -96,8 +98,8 @@ const Home: NextPage = () => {
       disadvantages: ["bug", "dark", "ghost"]
     },
     {
-      typeLabel: "earth",
-      img: "assets/earth.png",
+      typeLabel: "ground",
+      img: "assets/ground.png",
       advantages: ["electric", "fire", "poison", "rock", "steel"],
       disadvantages: ["grass", "ice", "water"]
     },
@@ -105,24 +107,24 @@ const Home: NextPage = () => {
       typeLabel: "rock",
       img: "assets/rock.png",
       advantages: ["grass", "fire", "flying", "ice"],
-      disadvantages: ["fighting", "grass", "earth", "steel", "water"]
+      disadvantages: ["fighting", "grass", "ground", "steel", "water"]
     },
     {
       typeLabel: "ice",
       img: "assets/ice.png",
-      advantages: ["dragon", "flying", "earth", "grass"],
+      advantages: ["dragon", "flying", "ground", "grass"],
       disadvantages: ["fighting", "fire", "rock", "steel"]
     },
     {
       typeLabel: "poison",
       img: "assets/poison.png",
       advantages: ["fairy", "grass"],
-      disadvantages: ["earth", "psychic"]
+      disadvantages: ["ground", "psychic"]
     },
     {
       typeLabel: "grass",
       img: "assets/grass.png",
-      advantages: ["earth", "rock", "water"],
+      advantages: ["ground", "rock", "water"],
       disadvantages: ["bug", "fire", "flying", "ice", "poison"]
     },
   ]
@@ -132,17 +134,20 @@ const Home: NextPage = () => {
   }, [])
 
   useEffect(() => {
-    setTypeListFiltered(typeList.filter(
-      (item) => item.typeLabel.startsWith(searchString.toLocaleLowerCase())
-    ))
+    setTimeout(() => {
+      setTypeListFiltered(typeList.filter(
+        (item) => item.typeLabel.startsWith(searchString.toLocaleLowerCase().trim())
+      ))
+    }, 300);
   }, [searchString])
 
   return (
-    <Content>
+    <GlobalContainer>
       <Head><title>PokéTypes</title></Head>
 
-      <Title>Pokémon Type Advantages</Title>
+      <Navbar />
 
+      <Title>Pokémon Type <br/> Advantages</Title>
       <SearchInput
         value={searchString}
         onChange={(e) => setSearchString(e.target.value)}
@@ -159,25 +164,11 @@ const Home: NextPage = () => {
           />
         ))}
       </Wrapper>
-    </Content>
+    </GlobalContainer>
   )
 }
 
 export default Home
-
-const Content = styled.main`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  width: 100%;
-  height: 100%;
-
-  padding: 2rem 1rem 1rem;
-  background: linear-gradient(0deg, ${props => props.theme.color.blue[300]} 0%, ${props => props.theme.color.blue[200]} 90%);
-  
-`;
 
 const Wrapper = styled.section<any>`
   display: grid;
@@ -191,19 +182,5 @@ const Wrapper = styled.section<any>`
 
   @media (min-width: 1200px) {
     grid: 1fr / repeat(6, 1fr);
-  }
-`;
-
-const Title = styled.h1`
-  font-size: 4rem;
-  text-align: center;
-  width: 100%;
-
-  -webkit-text-fill-color: ${props => props.theme.color.yellow[200]};
-  -webkit-text-stroke-width: 2px;
-  -webkit-text-stroke-color: black;
-
-  @media (max-width: 375px) {
-    font-size: 3.5rem;
   }
 `;
