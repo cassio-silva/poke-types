@@ -31,7 +31,6 @@ const Pokecoins: NextPage = () => {
   function handleCoinCalculation() {
     const h = Number(hours);
     const min = Number(minutes);
-    console.log(h, min)
 
     const totalCoins = (h * 6) + Math.floor(min * 0.1);
 
@@ -127,7 +126,7 @@ const GymTimeForm = styled.form`
   margin: 1rem auto;
 
   input {
-    width: 8rem;
+    width: 7rem;
     height: 4rem;
     font-size: 1.5rem;
     font-weight: 600;
@@ -154,8 +153,8 @@ const GymTimeForm = styled.form`
     &:last-child {
       border-top-right-radius: 50%;
       border-bottom-right-radius: 50%;
-      padding-left: 12px;
-      padding-right: 2rem;
+      padding-left: 8px;
+      padding-right: 1.75rem;
       
       &::placeholder {
         text-align: left;

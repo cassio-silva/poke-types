@@ -1,15 +1,22 @@
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 export function Navbar() {
+  const [browserWindow, setBrowserWindow] = useState<Window>();
+
+  useEffect(() => {
+    setBrowserWindow(window);
+  }, [])
+
   return (
     <Container>
-      <Link href="/">
-        <a>Type Advantages</a>
+      <Link href="/" >
+        <a className={browserWindow?.location?.pathname === "/" ? "active" : ""}>Type Advantages</a>
       </Link>
 
-      <Link href="/pokecoins">
-        <a>Pokécoin Calculator</a>
+      <Link href="/pokecoins" >
+        <a className={browserWindow?.location?.pathname.includes("pokecoins") ? "active" : ""}>Pokécoin Calculator</a>
       </Link>
     </Container>
   )
@@ -25,7 +32,11 @@ const Container = styled.nav`
   padding: 1rem;
 
   color: #FFF;
-  background: linear-gradient(0deg, ${props => props.theme.color.blue[200]} 0%, ${props => props.theme.color.blue[300]} 60%) ;
+  /* background: linear-gradient(90deg, ${props => props.theme.color.purple[100]} 0%, ${props => props.theme.color.blue[300]} 70%); */
+  background: radial-gradient(circle at center, 
+    ${props => props.theme.color.green[50]} 0%, 
+    ${props => props.theme.color.green[200]} 100%
+    );
 
   position: fixed;
   top: 0;
@@ -42,13 +53,18 @@ const Container = styled.nav`
 
     white-space: pre-wrap;
 
-    background: ${props => props.theme.color.green[200]};
+    background: radial-gradient(circle at left top, ${props => props.theme.color.greenLight[100]} 0%, ${props => props.theme.color.green[200]} 90%);
+    filter: contrast(0.75) brightness(0.85);
     padding: 0.5rem 1.25rem;
     border-radius: 120px;
     transition: 0.3s;
     
     &:hover {
-      filter: brightness(1.25);
+      filter: unset;
+    }
+    
+    &.active {
+      filter: unset;
     }
   }
 

@@ -73,7 +73,7 @@ const Container = styled.button`
   align-items: center;
 
   width: 90%;
-  background-color: white;
+  background: #fff;
   box-shadow: 0px 3px 15px rgba(0,0,0,0.35);
   border-radius: 150px;
   border: none;
@@ -81,10 +81,16 @@ const Container = styled.button`
   padding: 1rem;
   margin: 0.5rem;
 
-  position: relative;
   box-sizing: border-box;
   cursor: pointer;
   outline: none;
+  
+  position: relative;
+  transition: 0.1s;
+
+  &:hover {
+    box-shadow: 0px 0px 1.5rem rgb(255, 255, 255);
+  }
 `;
 
 const TypeIcon = styled.img`

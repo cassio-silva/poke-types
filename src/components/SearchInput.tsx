@@ -21,7 +21,7 @@ const Input = styled.input`
   
   margin: 3rem auto 1rem;
   padding: 0.25rem 1rem;
-  background: rgba(100,100,100, 0.25);
+  background: #fff;
   
   border: 3px solid #fff;
   border-radius: 50px;
@@ -35,7 +35,6 @@ const Input = styled.input`
   }
   
   &:focus {
-    background: #fff;
     outline: none;
     border-color: #ddd7a2;
 
