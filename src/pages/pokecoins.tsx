@@ -98,9 +98,9 @@ const Content = styled.section`
   align-items: center;
   font-family: ${props => props.theme.font.Poppins};
 
-  margin-top: 2rem;
   width: 95%;
   max-width: 40rem;
+  margin-top: 2rem;
 
   img {
     width: 100%;
