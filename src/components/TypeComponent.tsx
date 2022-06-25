@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
+import { useWindowSize } from "../hooks/useWindowSize";
+
 type TypeAdvantages = {
   typeLabel: string;
   img: string;
@@ -11,16 +13,24 @@ type TypeAdvantages = {
 export function TypeComponent({ img, typeLabel, advantages, disadvantages }: TypeAdvantages) {
   const [selected, setSelected] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const { width } = useWindowSize();
 
   function handleSelectedType() {
     if (selected === "") {
-      setSelected(typeLabel)
-      setIsOpen(true);
+      setSelected(typeLabel);
     } else {
-      setSelected("")
-      setIsOpen(false);
+      setSelected("");
     }
   }
+
+  useEffect(() => {
+    console.log("selected: ", selected, "typelabel: ", typeLabel);
+    if (selected === typeLabel) {
+      setIsOpen(true);
+    } else {
+      setIsOpen(false);
+    }
+  }, [selected])
 
   function handleTypeRender(typeArray: Array<string>) {
     if (typeArray.length < 1) {
@@ -58,7 +68,11 @@ export function TypeComponent({ img, typeLabel, advantages, disadvantages }: Typ
           <Disadvantages break={disadvantages.length}>
             {handleTypeRender(disadvantages)}
           </Disadvantages>
-          <p>{"< tap to close >"}</p>
+          {(width && width <= 768) ? (
+            <p>{"< tap to close >"}</p>
+          ) : (
+            <p>{"< click to close >"}</p>
+          )}
         </div>
       </Modal>
 
