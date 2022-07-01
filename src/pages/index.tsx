@@ -17,6 +17,7 @@ type TypeAdvantages = {
 const Home: NextPage = () => {
   const [typeListFiltered, setTypeListFiltered] = useState<TypeAdvantages[]>([]);
   const [searchString, setSearchString] = useState("");
+  const [selected, setSelected] = useState("");
 
   const typeList: TypeAdvantages[] = [
     {
@@ -141,9 +142,13 @@ const Home: NextPage = () => {
     }, 300);
   }, [searchString])
 
+  useEffect(() => {
+    console.log(selected);
+  }, [selected])
+
   return (
     <GlobalContainer>
-      <Head><title>PokéTypes</title></Head>
+      <Head><title>PokéTools</title></Head>
 
       <Navbar />
 
@@ -161,6 +166,8 @@ const Home: NextPage = () => {
             img={item.img}
             advantages={item.advantages}
             disadvantages={item.disadvantages}
+            selected={selected}
+            setSelected={setSelected}
           />
         ))}
       </Wrapper>

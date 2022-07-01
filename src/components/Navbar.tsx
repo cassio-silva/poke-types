@@ -48,7 +48,7 @@ const Container = styled.nav`
     text-decoration: none;
     text-align: center;
     color: inherit;
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     margin: 0 4px;
 
     white-space: pre-wrap;
@@ -69,7 +69,8 @@ const Container = styled.nav`
   }
 
   @media (max-width: 440px) {
-    
+    top: unset;
+    bottom: 0;
     a {
       font-size: 1.25rem;
     }

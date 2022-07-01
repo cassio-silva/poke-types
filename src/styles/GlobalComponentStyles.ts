@@ -12,6 +12,10 @@ export const GlobalContainer = styled.main`
 
   padding: 7rem 1rem 4rem;
   background: linear-gradient(-5deg, ${props => props.theme.color.green[200]} 50%, ${props => props.theme.color.greenLight[100]} 100%);
+
+  @media (max-width: 440px) {
+    padding: 1rem 1rem 10rem;
+  }
 `;
 
 export const Title = styled.h1`

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { useWindowSize } from "../hooks/useWindowSize";
@@ -8,15 +8,23 @@ type TypeAdvantages = {
   img: string;
   advantages: string[];
   disadvantages: string[];
+  selected: string;
+  setSelected: Dispatch<SetStateAction<string>>;
 }
 
-export function TypeComponent({ img, typeLabel, advantages, disadvantages }: TypeAdvantages) {
-  const [selected, setSelected] = useState("");
+export function TypeComponent({
+  img,
+  typeLabel,
+  advantages,
+  disadvantages,
+  selected,
+  setSelected
+}: TypeAdvantages) {
   const [isOpen, setIsOpen] = useState(false);
   const { width } = useWindowSize();
 
   function handleSelectedType() {
-    if (selected === "") {
+    if (selected !== typeLabel) {
       setSelected(typeLabel);
     } else {
       setSelected("");
@@ -24,11 +32,10 @@ export function TypeComponent({ img, typeLabel, advantages, disadvantages }: Typ
   }
 
   useEffect(() => {
-    console.log("selected: ", selected, "typelabel: ", typeLabel);
-    if (selected === typeLabel) {
-      setIsOpen(true);
-    } else {
+    if (selected !== typeLabel) {
       setIsOpen(false);
+    } else {
+      setIsOpen(true);
     }
   }, [selected])
 
