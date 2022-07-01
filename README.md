@@ -4,4 +4,6 @@ Instead of reading through lines and lines of tables to find what Pokémon types
 
 Use the search bar to filter by name all the pokémon types, and find what you need!
 
-(public\project-images)[public\project-images]
+<img src="https://github.com/cassio-silva/poke-types/blob/main/public/project-images/sc-search.png" width="500" height="200"/>
+
+<img src="https://github.com/cassio-silva/poke-types/blob/main/public/project-images/sc-found.png" width="500" height="220"/>
