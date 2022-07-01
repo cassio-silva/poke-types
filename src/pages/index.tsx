@@ -142,10 +142,6 @@ const Home: NextPage = () => {
     }, 300);
   }, [searchString])
 
-  useEffect(() => {
-    console.log(selected);
-  }, [selected])
-
   return (
     <GlobalContainer>
       <Head><title>PokéTools</title></Head>
