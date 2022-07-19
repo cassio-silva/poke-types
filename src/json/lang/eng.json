@@ -4,5 +4,9 @@
   "searchPlaceholder": "Filter...",
   "homeTitle": "Pokémon Type Advantages",
   "strongAgainst": "Strong Against",
-  "weakAgainst": "Weak Against"
+  "weakAgainst": "Weak Against",
+  "gymTime": "Time on Gym",
+  "hours" : "hours",
+  "minutes": "minutes",
+  "buttonMessage": "Click on the Pokecoin to calculate the coins earned"
 }

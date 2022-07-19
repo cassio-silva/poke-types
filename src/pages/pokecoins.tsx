@@ -1,15 +1,17 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { NextPage } from "next";
 import { Navbar } from "../components/Navbar";
 import styled, { css } from "styled-components";
 import { GlobalContainer, Title } from "../styles/GlobalComponentStyles";
+import { LanguageContext } from "../contexts/LanguageContext";
 
 const Pokecoins: NextPage = () => {
   const [hours, setHours] = useState("");
   const [minutes, setMinutes] = useState("");
   const [isShown, setIsShown] = useState(false);
   const [coins, setCoins] = useState<number>(0);
+  const { langContent } = useContext(LanguageContext);
 
   useEffect(() => {
     if (Number(minutes) > 59) {
@@ -51,13 +53,13 @@ const Pokecoins: NextPage = () => {
 
   return (
     <GlobalContainer>
-      <Head><title>PokéTypes | Pokecoins</title></Head>
+      <Head><title>PokéTools | Pokecoins</title></Head>
 
       <Navbar />
-      <Title>Pokécoin calculator</Title>
+      <Title>{langContent.calculator}</Title>
 
       <Content>
-        <h2>Time on gym</h2>
+        <h2>{langContent.gymTime}</h2>
 
         <GymTimeForm>
           <input
@@ -66,7 +68,7 @@ const Pokecoins: NextPage = () => {
             onChange={(e) => setHours(e.target.value)}
             inputMode="numeric"
             pattern="[0-9]*"
-            placeholder="Hours"
+            placeholder={langContent.hours}
           />
           <input
             type="number"
@@ -74,10 +76,13 @@ const Pokecoins: NextPage = () => {
             onChange={(e) => setMinutes(e.target.value)}
             inputMode="numeric"
             pattern="[0-9]*"
-            placeholder="Minutes"
+            placeholder={langContent.minutes}
           />
         </GymTimeForm>
-        <p>Click on the Pokecoin <br /> to calculate the coins earned</p>
+        <p>
+          {langContent.buttonMessage.split("pokecoin")[0]}<br />
+          {langContent.buttonMessage.split("pokecoin")[1]}
+        </p>
         <Separator isShown={isShown}>
           <button onClick={handleCoinCalculation}>
             <img src="/assets/pokecoin.png" alt="Pokecoin" />

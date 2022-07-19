@@ -12,6 +12,10 @@ type LanguageContextProps = {
     homeTitle: string;
     strongAgainst: string;
     weakAgainst: string;
+    gymTime: string;
+    hours: string;
+    minutes: string;
+    buttonMessage: string;
   };
 }
 

@@ -21,7 +21,7 @@ const Home: NextPage = () => {
   const [typeListFiltered, setTypeListFiltered] = useState<TypeAdvantages[]>([]);
   const [searchString, setSearchString] = useState("");
   const [selected, setSelected] = useState("");
-  const { language, langContent } = useContext(LanguageContext)
+  const { language, langContent } = useContext(LanguageContext);
 
   const typeList = types;
   const typeListTranslated = typesPtbr;

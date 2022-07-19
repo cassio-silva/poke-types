@@ -4,5 +4,9 @@
   "searchPlaceholder": "Filtrar...",
   "homeTitle": "Pokémon Tipos e Vantagens",
   "strongAgainst": "Forte Contra",
-  "weakAgainst": "Fraco Contra"
+  "weakAgainst": "Fraco Contra",
+  "gymTime": "Tempo no ginásio",
+  "hours" : "Horas",
+  "minutes": "Minutos",
+  "buttonMessage": "Clique na Pokecoin para calcular as moedas ganhas"
 }
