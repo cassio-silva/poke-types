@@ -4,7 +4,7 @@ import { useWindowSize } from "../hooks/useWindowSize";
 export function Footer() {
   const { width } = useWindowSize();
 
-  if (width >= 768) {
+  if (width && width >= 768) {
     return (
       <FooterWrapper>
         rodapé
@@ -18,7 +18,8 @@ export function Footer() {
 }
 
 const FooterWrapper = styled.footer`
-  display: flex;
+  display: none;
+  /* display: flex; */
   justify-content: center;
   align-items: center;
 
