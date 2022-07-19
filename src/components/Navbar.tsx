@@ -110,7 +110,7 @@ const ContainerMenu = styled.div<any>`
   
   position: absolute;
   top: 4.5rem;
-  left: 0;
+  left: 15px;
   transition: 0.2s;
 
   a {
