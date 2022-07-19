@@ -1,12 +1,14 @@
-import { InputHTMLAttributes } from "react";
+import { InputHTMLAttributes, useContext } from "react";
 import styled from "styled-components";
+import { LanguageContext } from "../contexts/LanguageContext";
 
 export function SearchInput({ ...rest }: InputHTMLAttributes<HTMLInputElement>) {
+  const { langContent } = useContext(LanguageContext)
   return (
     <Input
       {...rest}
       type="text"
-      placeholder="Filter..."
+      placeholder={langContent.searchPlaceholder}
     />
   )
 }

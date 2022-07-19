@@ -20,16 +20,17 @@ export const GlobalContainer = styled.main`
 
 export const Title = styled.h1`
   font-family: ${props => props.theme.font.Poppins};
-  font-size: 4rem;
-  line-height: 3.75rem;
+  font-size: 3.25rem;
+  line-height: 3.25rem;
   text-align: center;
   width: 100%;
-
+  
   color: ${props => props.theme.color.yellow[100]};
-
+  
   text-shadow: 0px 0px 5px #000;
-
-  @media (max-width: 440px) {
-    font-size: 3.5rem;
+  
+  @media (min-width: 440px) {
+    font-size: 4rem;
+    line-height: 3.75rem;
   }
 `;

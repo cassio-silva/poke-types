@@ -1,0 +1,110 @@
+[
+  {
+    "typeLabel": "inseto",
+    "img": "assets/bug.png",
+    "advantages": ["dark", "grass", "psychic"],
+    "disadvantages": ["fire", "flying", "rock"]
+  },
+  {
+    "typeLabel": "trevas",
+    "img": "assets/dark.png",
+    "advantages": ["ghost", "psychic"],
+    "disadvantages": ["bug", "fairy", "fighting"]
+  },
+  {
+    "typeLabel": "dragão",
+    "img": "assets/dragon.png",
+    "advantages": ["dragon"],
+    "disadvantages": ["dragon", "fairy", "ice"]
+  },
+  {
+    "typeLabel": "normal",
+    "img": "assets/normal.png",
+    "advantages": [],
+    "disadvantages": ["fighting"]
+  },
+  {
+    "typeLabel": "aço",
+    "img": "assets/steel.png",
+    "advantages": ["fairy", "ice", "rock"],
+    "disadvantages": ["fighting", "fire", "ground"]
+  },
+  {
+    "typeLabel": "fada",
+    "img": "assets/fairy.png",
+    "advantages": ["dark", "dragon", "fighting"],
+    "disadvantages": ["poison", "steel"]
+  },
+  {
+    "typeLabel": "lutador",
+    "img": "assets/fighting.png",
+    "advantages": ["dark", "ice", "normal", "rock", "steel"],
+    "disadvantages": ["fairy", "flying", "psychic"]
+  },
+  {
+    "typeLabel": "fantasma",
+    "img": "assets/ghost.png",
+    "advantages": ["ghost", "psychic"],
+    "disadvantages": ["ghost", "dark"]
+  },
+  {
+    "typeLabel": "fogo",
+    "img": "assets/fire.png",
+    "advantages": ["bug", "grass", "ice", "steel"],
+    "disadvantages": ["ground", "rock", "water"]
+  },
+  {
+    "typeLabel": "água",
+    "img": "assets/water.png",
+    "advantages": ["ground", "rock", "fire"],
+    "disadvantages": ["electric", "grass"]
+  },
+  {
+    "typeLabel": "elétrico",
+    "img": "assets/electric.png",
+    "advantages": ["flying", "water"],
+    "disadvantages": ["ground"]
+  },
+  {
+    "typeLabel": "voador",
+    "img": "assets/flying.png",
+    "advantages": ["bug", "grass", "fighting"],
+    "disadvantages": ["electric", "ice", "rock"]
+  },
+  {
+    "typeLabel": "psíquico",
+    "img": "assets/psychic.png",
+    "advantages": ["fighting", "poison"],
+    "disadvantages": ["bug", "dark", "ghost"]
+  },
+  {
+    "typeLabel": "terrestre",
+    "img": "assets/ground.png",
+    "advantages": ["electric", "fire", "poison", "rock", "steel"],
+    "disadvantages": ["grass", "ice", "water"]
+  },
+  {
+    "typeLabel": "pedra",
+    "img": "assets/rock.png",
+    "advantages": ["grass", "fire", "flying", "ice"],
+    "disadvantages": ["fighting", "grass", "ground", "steel", "water"]
+  },
+  {
+    "typeLabel": "gelo",
+    "img": "assets/ice.png",
+    "advantages": ["dragon", "flying", "ground", "grass"],
+    "disadvantages": ["fighting", "fire", "rock", "steel"]
+  },
+  {
+    "typeLabel": "venenoso",
+    "img": "assets/poison.png",
+    "advantages": ["fairy", "grass"],
+    "disadvantages": ["ground", "psychic"]
+  },
+  {
+    "typeLabel": "grama",
+    "img": "assets/grass.png",
+    "advantages": ["ground", "rock", "water"],
+    "disadvantages": ["bug", "fire", "flying", "ice", "poison"]
+  }
+]

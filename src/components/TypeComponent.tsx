@@ -1,5 +1,6 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
 import styled from "styled-components";
+import { LanguageContext } from "../contexts/LanguageContext";
 
 import { useWindowSize } from "../hooks/useWindowSize";
 
@@ -22,6 +23,7 @@ export function TypeComponent({
 }: TypeAdvantages) {
   const [isOpen, setIsOpen] = useState(false);
   const { width } = useWindowSize();
+  const { langContent, language } = useContext(LanguageContext);
 
   function handleSelectedType() {
     if (selected !== typeLabel) {
@@ -42,7 +44,7 @@ export function TypeComponent({
   function handleTypeRender(typeArray: Array<string>) {
     if (typeArray.length < 1) {
       return (
-        <span>None</span>
+        <span>{language === "eng" ? "None" : "Nenhum"}</span>
       )
     } else {
       return (
@@ -50,6 +52,30 @@ export function TypeComponent({
           <img key={index} src={`assets/${item}.png`} alt={item} />
         ))
       )
+    }
+  }
+
+  function CloseCardTextHandler() {
+    if (language === "eng") {
+      if (width && width <= 768) {
+        return (
+          <p>{"< tap to close >"}</p>
+        )
+      } else {
+        return (
+          <p>{"< click to close >"}</p>
+        )
+      }
+    } else {
+      if (width && width <= 768) {
+        return (
+          <p>{"< toque para fechar >"}</p>
+        )
+      } else {
+        return (
+          <p>{"< clique para fechar >"}</p>
+        )
+      }
     }
   }
 
@@ -66,20 +92,16 @@ export function TypeComponent({
         <div className="content">
 
           <strong>{typeLabel}</strong>
-          <span className="green">Strong Against</span>
+          <span className="green">{langContent.strongAgainst}</span>
           <Advantages break={advantages.length}>
             {handleTypeRender(advantages)}
           </Advantages>
 
-          <span className="red">Weak Against</span>
+          <span className="red">{langContent.weakAgainst}</span>
           <Disadvantages break={disadvantages.length}>
             {handleTypeRender(disadvantages)}
           </Disadvantages>
-          {(width && width <= 768) ? (
-            <p>{"< tap to close >"}</p>
-          ) : (
-            <p>{"< click to close >"}</p>
-          )}
+          {CloseCardTextHandler()}
         </div>
       </Modal>
 

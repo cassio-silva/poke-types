@@ -1,11 +1,14 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components'
 import { Navbar } from '../components/Navbar';
 import { SearchInput } from '../components/SearchInput';
 import { TypeComponent } from '../components/TypeComponent';
+import { LanguageContext } from '../contexts/LanguageContext';
 import { GlobalContainer, Title } from '../styles/GlobalComponentStyles';
+import types from "../json/types.json";
+import typesPtbr from "../json/types-ptbr.json";
 
 type TypeAdvantages = {
   typeLabel: string;
@@ -18,127 +21,30 @@ const Home: NextPage = () => {
   const [typeListFiltered, setTypeListFiltered] = useState<TypeAdvantages[]>([]);
   const [searchString, setSearchString] = useState("");
   const [selected, setSelected] = useState("");
+  const { language, langContent } = useContext(LanguageContext)
 
-  const typeList: TypeAdvantages[] = [
-    {
-      typeLabel: "bug",
-      img: "assets/bug.png",
-      advantages: ["dark", "grass", "psychic"],
-      disadvantages: ["fire", "flying", "rock"]
-    },
-    {
-      typeLabel: "dark",
-      img: "assets/dark.png",
-      advantages: ["ghost", "psychic"],
-      disadvantages: ["bug", "fairy", "fighting"]
-    },
-    {
-      typeLabel: "dragon",
-      img: "assets/dragon.png",
-      advantages: ["dragon"],
-      disadvantages: ["dragon", "fairy", "ice"]
-    },
-    {
-      typeLabel: "normal",
-      img: "assets/normal.png",
-      advantages: [],
-      disadvantages: ["fighting"]
-    },
-    {
-      typeLabel: "steel",
-      img: "assets/steel.png",
-      advantages: ["fairy", "ice", "rock"],
-      disadvantages: ["fighting", "fire", "ground"]
-    },
-    {
-      typeLabel: "fairy",
-      img: "assets/fairy.png",
-      advantages: ["dark", "dragon", "fighting"],
-      disadvantages: ["poison", "steel"]
-    },
-    {
-      typeLabel: "fighting",
-      img: "assets/fighting.png",
-      advantages: ["dark", "ice", "normal", "rock", "steel"],
-      disadvantages: ["fairy", "flying", "psychic"]
-    },
-    {
-      typeLabel: "ghost",
-      img: "assets/ghost.png",
-      advantages: ["ghost", "psychic"],
-      disadvantages: ["ghost", "dark"]
-    },
-    {
-      typeLabel: "fire",
-      img: "assets/fire.png",
-      advantages: ["bug", "grass", "ice", "steel"],
-      disadvantages: ["ground", "rock", "water"]
-    },
-    {
-      typeLabel: "water",
-      img: "assets/water.png",
-      advantages: ["ground", "rock", "fire"],
-      disadvantages: ["electric", "grass"]
-    },
-    {
-      typeLabel: "electric",
-      img: "assets/electric.png",
-      advantages: ["flying", "water"],
-      disadvantages: ["ground"]
-    },
-    {
-      typeLabel: "flying",
-      img: "assets/flying.png",
-      advantages: ["bug", "grass", "fighting"],
-      disadvantages: ["electric", "ice", "rock"]
-    },
-    {
-      typeLabel: "psychic",
-      img: "assets/psychic.png",
-      advantages: ["fighting", "poison"],
-      disadvantages: ["bug", "dark", "ghost"]
-    },
-    {
-      typeLabel: "ground",
-      img: "assets/ground.png",
-      advantages: ["electric", "fire", "poison", "rock", "steel"],
-      disadvantages: ["grass", "ice", "water"]
-    },
-    {
-      typeLabel: "rock",
-      img: "assets/rock.png",
-      advantages: ["grass", "fire", "flying", "ice"],
-      disadvantages: ["fighting", "grass", "ground", "steel", "water"]
-    },
-    {
-      typeLabel: "ice",
-      img: "assets/ice.png",
-      advantages: ["dragon", "flying", "ground", "grass"],
-      disadvantages: ["fighting", "fire", "rock", "steel"]
-    },
-    {
-      typeLabel: "poison",
-      img: "assets/poison.png",
-      advantages: ["fairy", "grass"],
-      disadvantages: ["ground", "psychic"]
-    },
-    {
-      typeLabel: "grass",
-      img: "assets/grass.png",
-      advantages: ["ground", "rock", "water"],
-      disadvantages: ["bug", "fire", "flying", "ice", "poison"]
-    },
-  ]
+  const typeList = types;
+  const typeListTranslated = typesPtbr;
 
   useEffect(() => {
-    setTypeListFiltered(typeList);
-  }, [])
+    if (language === "eng") {
+      setTypeListFiltered(typeList);
+    } else {
+      setTypeListFiltered(typeListTranslated)
+    }
+  }, [language])
 
   useEffect(() => {
     setTimeout(() => {
-      setTypeListFiltered(typeList.filter(
-        (item) => item.typeLabel.startsWith(searchString.toLocaleLowerCase().trim())
-      ))
+      if (language === "eng") {
+        setTypeListFiltered(typeList.filter(
+          (item) => item.typeLabel.startsWith(searchString.toLocaleLowerCase().trim())
+        ))
+      } else {
+        setTypeListFiltered(typeListTranslated.filter(
+          (item) => item.typeLabel.startsWith(searchString.toLocaleLowerCase().trim())
+        ))
+      }
     }, 300);
   }, [searchString])
 
@@ -148,7 +54,10 @@ const Home: NextPage = () => {
 
       <Navbar />
 
-      <Title>Pokémon Type <br/> Advantages</Title>
+      <Title>
+        {langContent.homeTitle.split(" ")[0]} {langContent.homeTitle.split(" ")[1]}<br />
+        {langContent.homeTitle.split(" ")[2]} {langContent.homeTitle?.split(" ")[3]}
+      </Title>
       <SearchInput
         value={searchString}
         onChange={(e) => setSearchString(e.target.value)}
