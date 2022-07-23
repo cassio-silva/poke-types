@@ -8,5 +8,6 @@
   "gymTime": "Tempo no ginásio",
   "hours" : "Horas",
   "minutes": "Minutos",
-  "buttonMessage": "Clique na Pokecoin para calcular as moedas ganhas"
+  "buttonMessage": "Clique na Pokecoin para calcular as moedas ganhas",
+  "coinsPerDay": "Você pode ganhar apenas 50 Pokemoedas por dia!"
 }

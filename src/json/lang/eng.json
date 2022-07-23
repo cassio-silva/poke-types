@@ -8,5 +8,6 @@
   "gymTime": "Time on Gym",
   "hours" : "hours",
   "minutes": "minutes",
-  "buttonMessage": "Click on the Pokecoin to calculate the coins earned"
+  "buttonMessage": "Click on the Pokecoin to calculate the coins earned",
+  "coinsPerDay": "You can earn only up to 50 Pokecoins per day!"
 }

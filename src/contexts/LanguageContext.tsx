@@ -16,6 +16,7 @@ type LanguageContextProps = {
     hours: string;
     minutes: string;
     buttonMessage: string;
+    coinsPerDay: string;
   };
 }
 
