@@ -1,4 +1,4 @@
-# PokéTypes
+# PokéTools
 
 Instead of reading through lines and lines of tables to find what Pokémon types are stronger or weaker against others, just access this easy, quick and interactive page.
 
