@@ -11,6 +11,9 @@ export const theme = {
       100: "#c4c4c4",
       200: "#737373"
     },
+    lightBlue: {
+      100: "#d6f9ff"
+    },
     blue: {
       50: "#52c0cc",
       100: "#02d1e8",

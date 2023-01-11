@@ -22,6 +22,10 @@ export function Navbar() {
       </PokeballMenuButton>
 
       <ContainerMenu isOpen={isOpen}>
+        <Link href="/pokemon" >
+          <a className={browserWindow?.location?.pathname.includes("pokemon") ? "active" : ""}>Pokémon</a>
+        </Link>
+
         <Link href="/" >
           <a className={browserWindow?.location?.pathname === "/" ? "active" : ""}>{langContent.buttonAdvantage}</a>
         </Link>
@@ -75,6 +79,8 @@ const PokeballMenuButton = styled.button<any>`
   
   padding: 2px;
   box-sizing: border-box;
+  position: relative;
+  z-index: 5;
 
   animation: ${props => props.isOpen && "rotate 0.5s ease-in-out"};
   
@@ -105,12 +111,12 @@ const ContainerMenu = styled.div<any>`
 
   color: #FFF;
   width: 360px;
-  height: ${props => props.isOpen ? "5rem" : "0"};
+  height: ${props => props.isOpen ? "6rem" : "0"};
   overflow: ${props => props.isOpen ? "unset" : "hidden"};
   
   position: absolute;
-  top: 4.5rem;
-  left: 15px;
+  top: 2rem;
+  left: 0;
   transition: 0.2s;
 
   a {
@@ -135,12 +141,17 @@ const ContainerMenu = styled.div<any>`
   }
   a:nth-child(1) {
     ${props => props.isOpen && css`
-      transform: translate(5%, -100%);
+      transform: translate(15%, 0%);
     `}
   }
   a:nth-child(2) {
     ${props => props.isOpen && css`
-      transform: translate(-5%, -90%);
+      transform: translate(5%, 10%);
+    `}
+  }
+  a:nth-child(3) {
+    ${props => props.isOpen && css`
+      transform: translate(0%, 20%);
     `}
   }
 
@@ -157,21 +168,26 @@ const ContainerMenu = styled.div<any>`
 
   @media (max-width: 440px) {
     top: unset;
-    bottom: 4rem;
+    bottom: 4.75rem;
     left: unset;
     right: 0;
     height: ${props => props.isOpen ? "6rem" : "0"};
     a {
       font-size: 1.25rem;
-    }
+    }   
     a:nth-child(1) {
     ${props => props.isOpen && css`
-      transform: translate(35%, -10%);
+      transform: translate(85%, -15%);
     `}
     }
     a:nth-child(2) {
       ${props => props.isOpen && css`
-        transform: translate(5%, 0%);
+      transform: translate(25%, -5%);
+      `}
+    }
+    a:nth-child(3) {
+      ${props => props.isOpen && css`
+        transform: translate(0%, 5%);
       `}
     }
   }
