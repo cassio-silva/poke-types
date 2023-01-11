@@ -1,14 +1,17 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 type PaginationProps = {
   getNextPage: () => void;
   getPreviousPage: () => void;
+  currentPage: number;
 }
 
-export function Pagination({ getNextPage, getPreviousPage }: PaginationProps) {
+export function Pagination({ getNextPage, getPreviousPage, currentPage }: PaginationProps) {
   return (
     <Container>
-      <button onClick={getPreviousPage}>{"<"}</button>
+      <button onClick={getPreviousPage} disabled={currentPage <= 1}>{"<"}</button>
+      <span>{currentPage}</span>
       <button onClick={getNextPage}>{">"}</button>
     </Container>
   )
@@ -44,6 +47,7 @@ const Container = styled.div`
   }
 
   span {
+    text-align: center;
     font-family: ${props => props.theme.font.Poppins};
     margin: 0 1rem;
     width: 1.5rem;

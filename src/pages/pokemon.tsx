@@ -18,6 +18,7 @@ export default function Pokemon(props: PokemonListProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [pages, setPages] = useState<Partial<PokemonListProps>>();
   const [error, setError] = useState("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   useEffect(() => {
     getPokemon();
@@ -29,22 +30,24 @@ export default function Pokemon(props: PokemonListProps) {
     } else {
       setError("")
     }
+    console.log(pokemonList.map((poke) => poke.types[0].type.name))
   }, [filterPokemon, isLoading])
 
   useEffect(() => {
     filterByType();
+    console.log(types)
   }, [types, pokemonList])
 
   function filterByType() {
     try {
       // Both types are falsy (the function filling types[] will never fill only the second position)
-      if (types[0] === "" && types[1] === "") {
-        setIsLoading(true)
+      setIsLoading(true)
+      if (!types[0] && !types[1]) {
         const orderedList = pokemonList?.sort((pokeA, pokeB) => pokeA.id > pokeB.id ? 1 : -1)
         setFilterPokemon(orderedList);
-        setIsLoading(false)
-        // if second type is truthy (both types are filled)
-      } else if (types[1] !== "") {
+      }
+      // if second type is truthy (both types are filled)
+      if (types[1]) {
         const doubleFilter = pokemonList?.filter(
           (poke) => {
             if (
@@ -60,15 +63,18 @@ export default function Pokemon(props: PokemonListProps) {
           }
         )
         setFilterPokemon(doubleFilter);
-      } else {
-        // Only the first type is truthy
+      }
+      // Only the first type is truthy
+      if (types[0] && !types[1]) {
         const filteredList = pokemonList?.filter(
           (poke) => poke.types?.find((item) => item.type?.name.startsWith(types[0]))
         );
         setFilterPokemon(filteredList);
       }
+      setIsLoading(false)
     } catch (error) {
       console.error(error);
+      setIsLoading(false)
     }
   }
 
@@ -97,7 +103,7 @@ export default function Pokemon(props: PokemonListProps) {
       })
       const _pokemon = await Promise.all(_pokes);
       if (_pokemon) {
-        const _sortedPokemon = _pokemon.sort((pokeA, pokeB) => pokeA > pokeB ? 1 : -1);
+        const _sortedPokemon = _pokemon.sort((pokeA, pokeB) => pokeA.id > pokeB.id ? 1 : -1);
         setPokemonList(_sortedPokemon);
       }
       setIsLoading(false);
@@ -117,7 +123,7 @@ export default function Pokemon(props: PokemonListProps) {
       });
       const _pokemon = await Promise.all(_pokeList);
       if (_pokemon) {
-        const _sortedPokemon = _pokemon.sort((pokeA, pokeB) => pokeA > pokeB ? 1 : -1);
+        const _sortedPokemon = _pokemon.sort((pokeA, pokeB) => pokeA.id > pokeB.id ? 1 : -1);
         setPokemonList(_sortedPokemon);
         setPages({
           next: _pokes.data.next,
@@ -135,6 +141,7 @@ export default function Pokemon(props: PokemonListProps) {
     if (pages?.next) {
       fetchNewPokemon(pages.next)
       filterByType()
+      setCurrentPage(currentPage + 1);
     }
   }
 
@@ -142,6 +149,7 @@ export default function Pokemon(props: PokemonListProps) {
     if (pages?.previous) {
       fetchNewPokemon(pages.previous)
       filterByType()
+      setCurrentPage(currentPage - 1);
     }
   }
 
@@ -173,19 +181,19 @@ export default function Pokemon(props: PokemonListProps) {
         >
           Limpar
         </ButtonClear>
+        <Pagination
+          currentPage={currentPage}
+          getNextPage={getNextPage}
+          getPreviousPage={getPreviousPage}
+        />
         {Boolean(error) && (
           <ErrorMessage>{error}</ErrorMessage>
         )}
-        {filterPokemon.length <= 0 && isLoading ? (
+        {isLoading && (
           <LoadingImage src="spinner.png" />
-        ) : (
-          <>
-            <Pagination
-              getNextPage={getNextPage}
-              getPreviousPage={getPreviousPage}
-            />
-            <PokemonCards pokemon={filterPokemon} />
-          </>
+        )}
+        {!isLoading && filterPokemon.length >= 1 && (
+          <PokemonCards pokemon={filterPokemon} />
         )}
       </Content>
     </GlobalContainer>
