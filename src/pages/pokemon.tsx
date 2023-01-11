@@ -30,12 +30,10 @@ export default function Pokemon(props: PokemonListProps) {
     } else {
       setError("")
     }
-    console.log(pokemonList.map((poke) => poke.types[0].type.name))
   }, [filterPokemon, isLoading])
 
   useEffect(() => {
     filterByType();
-    console.log(types)
   }, [types, pokemonList])
 
   function filterByType() {
