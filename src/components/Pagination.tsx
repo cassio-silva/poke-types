@@ -40,9 +40,14 @@ const Container = styled.div`
     font-size: 1.5rem;
     font-weight: bold;
     line-height: 100%;
-
-    &:hover {
+    
+    &:hover:not(:disabled) {
       background: radial-gradient(circle at left top, ${props => props.theme.color.red[100]} 0%, ${props => props.theme.color.blue[300]} 100%);
+    }
+
+    &:disabled {
+      filter: grayscale(50%);
+      cursor: not-allowed;
     }
   }
 

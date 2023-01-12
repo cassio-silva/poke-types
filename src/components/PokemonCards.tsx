@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 type Pokemon = {
@@ -19,10 +20,26 @@ type PokemonCardProps = {
 }
 
 export function PokemonCards({ pokemon }: PokemonCardProps) {
+  const [active, setActive] = useState<number | null>(null);
+
+  function toggleActiveCard(id: number) {
+    if (active === id) {
+      setActive(null);
+    } else {
+      setActive(id);
+    }
+  }
+
   return (
-    <PokemonBox length={pokemon?.length}>
+    <PokemonBox
+      length={pokemon?.length}
+    >
       {pokemon?.map((poke) => (
-        <div key={poke.id} className="poke">
+        <div
+          onClick={() => toggleActiveCard(poke.id)}
+          key={poke.id}
+          className={`poke ${active === poke.id ? `active` : ``}`}
+        >
           <span className="name">{poke.name}#{poke.id}</span>
           <img src={poke.sprites.front_default} alt={poke.name} draggable="false" />
           <PokemonTypes>
@@ -62,6 +79,7 @@ const PokemonBox = styled.section<any>`
     border-radius: 4px;
 
     transition: 0.3s ease-in-out;
+    cursor: pointer;
 
     & > img {
       width: 120px;
@@ -73,11 +91,15 @@ const PokemonBox = styled.section<any>`
       white-space: nowrap;
     }
 
-    &:hover {
+    &.active {
       transform: scale(1.25);
       z-index: 20;
       animation: flash forwards 0.5s;
       background: radial-gradient(circle at center, #00c799 0%, #404590 80%);
+
+      & > img {
+        transform: scale(140%);
+      }
     }
   }
   
@@ -94,7 +116,7 @@ const PokemonBox = styled.section<any>`
   }
 
   @keyframes flash {
-    0% {transform: translate(0)}
+    0% {transform: translate(0); filter: brightness(2);}
     25% {transform: translate(3px, -8px)}
   }
 

@@ -35,17 +35,19 @@ const Home: NextPage = () => {
   }, [language])
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       if (language === "eng") {
         setTypeListFiltered(typeList.filter(
           (item) => item.typeLabel.startsWith(searchString.toLocaleLowerCase().trim())
         ))
+        clearTimeout(timer);
       } else {
         setTypeListFiltered(typeListTranslated.filter(
           (item) => item.typeLabel.startsWith(searchString.toLocaleLowerCase().trim())
         ))
       }
-    }, 300);
+      clearTimeout(timer);
+    }, 500);
   }, [searchString])
 
   return (
