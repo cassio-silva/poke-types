@@ -4,7 +4,7 @@ import { NextPage } from "next";
 import { LanguageContext } from "contexts/LanguageContext";
 import { GlobalContainer, Title } from "styles/GlobalComponentStyles";
 import { Navbar } from "components/Navbar";
-import { Content, GymTimeForm, Separator } from "./styles";
+import { Content, GymTimeForm, Separator } from "../../styles/pages/pokecoins/styles";
 
 const Pokecoins: NextPage = () => {
   const [hours, setHours] = useState("");

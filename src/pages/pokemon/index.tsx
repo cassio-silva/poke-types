@@ -7,7 +7,7 @@ import { Navbar } from "components/Navbar";
 import { PokemonCards } from "components/PokemonCards";
 import { Pagination } from "components/Pagination";
 import { PokemonListProps, PokemonProps } from "entities/Pokemon";
-import { ButtonClear, ButtonType, Content, ErrorMessage, LoadingImage, TypeFilter } from "./styles";
+import { ButtonClear, ButtonType, Content, ErrorMessage, LoadingImage, TypeFilter } from "../../styles/pages/pokemon/styles";
 // JSON
 import typesEng from "../../json/types.json";
 
