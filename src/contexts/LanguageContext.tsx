@@ -18,6 +18,7 @@ type LanguageContextProps = {
     buttonMessage: string;
     coinsPerDay: string;
   };
+  title: string;
 }
 
 type LanguageProviderProps = {
@@ -29,11 +30,12 @@ export const LanguageContext = createContext({} as LanguageContextProps);
 export function LanguageProvider({ children }: LanguageProviderProps) {
   const [language, setLanguage] = useState("");
   const [langContent, setLanguageContent] = useState(eng);
-  
+  const title = "PokéTools |";
+
   useEffect(() => {
     setLanguage("eng");
   }, [])
-  
+
   useEffect(() => {
     if (language === "eng") {
       setLanguageContent(eng);
@@ -44,8 +46,8 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
 
   return (
     //@ts-ignore
-    <LanguageContext.Provider value={{ language, setLanguage, langContent }}>
-      { children }
+    <LanguageContext.Provider value={{ language, setLanguage, langContent, title }}>
+      {children}
     </LanguageContext.Provider>
   )
 }

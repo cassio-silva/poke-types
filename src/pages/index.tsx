@@ -21,7 +21,7 @@ const Home: NextPage = () => {
   const [typeListFiltered, setTypeListFiltered] = useState<TypeAdvantages[]>([]);
   const [searchString, setSearchString] = useState("");
   const [selected, setSelected] = useState("");
-  const { language, langContent } = useContext(LanguageContext);
+  const { language, langContent, title } = useContext(LanguageContext);
 
   const typeList = types;
   const typeListTranslated = typesPtbr;
@@ -52,7 +52,7 @@ const Home: NextPage = () => {
 
   return (
     <GlobalContainer>
-      <Head><title>PokéTools</title></Head>
+      <Head><title>{title} Home</title></Head>
 
       <Navbar />
 

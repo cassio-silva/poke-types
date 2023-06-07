@@ -12,7 +12,7 @@ const Pokecoins: NextPage = () => {
   const [isShown, setIsShown] = useState(false);
   const [alert, setAlert] = useState(false);
   const [coins, setCoins] = useState<number>(0);
-  const { langContent } = useContext(LanguageContext);
+  const { langContent, title } = useContext(LanguageContext);
   const coinRef = useRef<any>();
 
   useEffect(() => {
@@ -63,7 +63,7 @@ const Pokecoins: NextPage = () => {
 
   return (
     <GlobalContainer>
-      <Head><title>PokéTools | Pokecoins</title></Head>
+      <Head><title>{title} Pokecoins</title></Head>
 
       <Navbar />
       <Title>{langContent.calculator}</Title>

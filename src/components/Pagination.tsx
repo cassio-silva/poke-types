@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { ButtonCustom } from "styles/pages/pokemon/styles";
 
 type PaginationProps = {
   getNextPage: () => void;
@@ -9,46 +10,20 @@ type PaginationProps = {
 export function Pagination({ getNextPage, getPreviousPage, currentPage }: PaginationProps) {
   return (
     <Container>
-      <button onClick={getPreviousPage} disabled={currentPage <= 1}>{"<"}</button>
+      <ButtonCustom onClick={getPreviousPage} disabled={currentPage <= 1}>{"<"}</ButtonCustom>
       <span>{currentPage}</span>
-      <button onClick={getNextPage}>{">"}</button>
+      <ButtonCustom onClick={getNextPage}>{">"}</ButtonCustom>
     </Container>
   )
 }
 
 const Container = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   width: 90%;
-  max-width: 10rem;
 
-  button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    color: #fff;
-    padding: 12px 16px;
-    border-radius: 20px;
-    border: none;
-    background: radial-gradient(circle at left top, ${props => props.theme.color.greenLight[100]} 0%, ${props => props.theme.color.blue[300]} 90%);
-
-    font-family: ${props => props.theme.font.Poppins};
-    font-size: 1.5rem;
-    font-weight: bold;
-    line-height: 100%;
-    
-    &:hover:not(:disabled) {
-      background: radial-gradient(circle at left top, ${props => props.theme.color.red[100]} 0%, ${props => props.theme.color.blue[300]} 100%);
-    }
-
-    &:disabled {
-      filter: grayscale(50%);
-      cursor: not-allowed;
-    }
-  }
+  margin-top: 2rem;
 
   span {
     text-align: center;

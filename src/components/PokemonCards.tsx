@@ -40,7 +40,7 @@ export function PokemonCards({ pokemon }: PokemonCardProps) {
           key={poke.id}
           className={`poke ${active === poke.id ? `active` : ``}`}
         >
-          <span className="name">{poke.name}#{poke.id}</span>
+          <span className="name">{poke.name}</span>
           <img src={poke.sprites.front_default} alt={poke.name} draggable="false" />
           <PokemonTypes>
             {poke.types.map((item, index) => (
@@ -85,10 +85,11 @@ const PokemonBox = styled.section<any>`
       width: 120px;
       transition: 0.3s;
     }
-
+    
     span {
       display: block;
       white-space: nowrap;
+      transition: 0.3s;
     }
 
     &.active {
@@ -98,7 +99,7 @@ const PokemonBox = styled.section<any>`
       background: radial-gradient(circle at center, #00c799 0%, #404590 80%);
 
       & > img {
-        transform: scale(140%);
+        transform: scale(150%);
       }
     }
   }

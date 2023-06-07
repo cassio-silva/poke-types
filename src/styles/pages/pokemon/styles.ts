@@ -50,10 +50,29 @@ export const ButtonType = styled.button<any>`
   &:hover {
     transform: scale(115%);
     filter: saturate(1.5) brightness(1);
+    
+    span.tooltip {
+      opacity: 1;
+    }
+  }
+
+  span.tooltip {
+    opacity: 0;
+    transition: 0.2s;
+    color: #fff;
+    text-transform: capitalize;
+    background-color: #666666;
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 12px;
+    padding: 4px 6px;
+    font-size: 0.75rem;
   }
 `;
 
-export const ButtonClear = styled.button`
+export const ButtonCustom = styled.button`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -65,6 +84,7 @@ export const ButtonClear = styled.button`
   margin-bottom: 8px;
   border: none;
   background: radial-gradient(circle at left top, ${props => props.theme.color.greenLight[100]} 0%, ${props => props.theme.color.blue[300]} 90%);
+  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.25);
 
   font-family: ${props => props.theme.font.Poppins};
   font-size: 1.5rem;
@@ -73,14 +93,19 @@ export const ButtonClear = styled.button`
 
   transition: all 0.2s;
 
-  &:hover {
+  &:not(:disabled):hover {
     background: radial-gradient(circle at left top, ${props => props.theme.color.red[100]} 0%, ${props => props.theme.color.blue[300]} 100%);
+  }
+
+  &:disabled {
+    filter: grayscale(50%);
+    cursor: not-allowed;
   }
 `;
 
 export const ErrorMessage = styled.span`
   display: flex;
-  background: ${props => props.theme.color.red[300]};
+  background: ${props => props.theme.color.red[400]};
   margin: 1rem auto;
   padding: 0.5rem 1.25rem;
   color: #fff;
@@ -89,6 +114,8 @@ export const ErrorMessage = styled.span`
   font-weight: 600;
   line-height: 110%;
   box-sizing: border-box;
+  border-radius: 12px;
+  box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.15);
   
   @media (min-width: 768px) {
     font-size: 1.5rem;

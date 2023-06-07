@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GetStaticProps } from "next";
 import { api } from "services/api";
 import { GlobalContainer } from "styles/GlobalComponentStyles";
@@ -7,7 +7,8 @@ import { Navbar } from "components/Navbar";
 import { PokemonCards } from "components/PokemonCards";
 import { Pagination } from "components/Pagination";
 import { PokemonListProps, PokemonProps } from "entities/Pokemon";
-import { ButtonClear, ButtonType, Content, ErrorMessage, LoadingImage, TypeFilter } from "../../styles/pages/pokemon/styles";
+import { ButtonCustom, ButtonType, Content, ErrorMessage, LoadingImage, TypeFilter } from "../../styles/pages/pokemon/styles";
+import { LanguageContext } from "contexts/LanguageContext";
 // JSON
 import typesEng from "../../json/types.json";
 
@@ -19,22 +20,7 @@ export default function Pokemon(props: PokemonListProps) {
   const [pages, setPages] = useState<Partial<PokemonListProps>>();
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState<number>(1);
-
-  useEffect(() => {
-    getPokemon();
-  }, [])
-
-  useEffect(() => {
-    if (filterPokemon.length < 1 && !isLoading) {
-      setError("No pokémon of this type was found")
-    } else {
-      setError("")
-    }
-  }, [filterPokemon, isLoading])
-
-  useEffect(() => {
-    filterByType();
-  }, [types, pokemonList])
+  const { title } = useContext(LanguageContext);
 
   function filterByType() {
     try {
@@ -136,18 +122,16 @@ export default function Pokemon(props: PokemonListProps) {
   }
 
   async function getNextPage() {
-    if (pages?.next) {
-      fetchNewPokemon(pages.next)
-      filterByType()
-      setCurrentPage(currentPage + 1);
+    if (pages?.next && !isLoading) {
+      fetchNewPokemon(pages.next).then(() => setCurrentPage(currentPage + 1));
+      filterByType();
     }
   }
 
   async function getPreviousPage() {
-    if (pages?.previous) {
-      fetchNewPokemon(pages.previous)
-      filterByType()
-      setCurrentPage(currentPage - 1);
+    if (pages?.previous && !isLoading) {
+      fetchNewPokemon(pages.previous).then(() => setCurrentPage(currentPage - 1));
+      filterByType();
     }
   }
 
@@ -155,10 +139,36 @@ export default function Pokemon(props: PokemonListProps) {
     setTypes(["", ""]);
   }
 
+  useEffect(() => {
+    console.log(isLoading)
+  }, [isLoading]);
+
+  useEffect(() => {
+    getPokemon();
+  }, [])
+
+  useEffect(() => {
+    if (filterPokemon.length < 1 && !isLoading) {
+      setError("No pokémon of this type was found")
+    } else {
+      setError("")
+    }
+  }, [filterPokemon, isLoading])
+
+  useEffect(() => {
+    filterByType();
+  }, [types, pokemonList])
+
+  if (isLoading && !error) {
+    return (
+      <LoadingImage src="spinner.png" />
+    )
+  }
+
   return (
     <GlobalContainer>
       <Head>
-        <title>Poketools | Pokemon</title>
+        <title>{`${title} Pokemon`}</title>
       </Head>
       <Navbar />
       <Content>
@@ -169,28 +179,32 @@ export default function Pokemon(props: PokemonListProps) {
               selected={types?.find((item) => item === type.typeLabel) ? true : false}
               onClick={() => handleTypeSelection(type.typeLabel)}
             >
-              <img src={type.img} alt={type.typeLabel} />
+              <img
+                src={type.img}
+                alt={type.typeLabel}
+              />
+              <span className={`tooltip`}>{type.typeLabel}</span>
             </ButtonType>
           ))}
         </TypeFilter>
 
-        <ButtonClear
+        <ButtonCustom
           onClick={resetTypes}
         >
           Limpar
-        </ButtonClear>
+        </ButtonCustom>
         <Pagination
           currentPage={currentPage}
           getNextPage={getNextPage}
           getPreviousPage={getPreviousPage}
         />
-        {Boolean(error) && (
-          <ErrorMessage>{error}</ErrorMessage>
-        )}
         {isLoading && (
           <LoadingImage src="spinner.png" />
         )}
-        {!isLoading && filterPokemon.length >= 1 && (
+        {(!isLoading && Boolean(error)) && (
+          <ErrorMessage>{error}</ErrorMessage>
+        )}
+        {!isLoading && filterPokemon.length > 0 && (
           <PokemonCards pokemon={filterPokemon} />
         )}
       </Content>
@@ -205,6 +219,6 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: data,
-    revalidate: 1000 * 60
+    revalidate: 1000 * 3
   }
 }
