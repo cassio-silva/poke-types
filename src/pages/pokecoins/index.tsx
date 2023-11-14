@@ -2,9 +2,10 @@ import Head from "next/head";
 import { useContext, useEffect, useRef, useState } from "react";
 import { NextPage } from "next";
 import { LanguageContext } from "contexts/LanguageContext";
-import { GlobalContainer, Title } from "styles/GlobalComponentStyles";
 import { Navbar } from "components/Navbar";
 import { Content, GymTimeForm, Separator } from "../../styles/pages/pokecoins/styles";
+import { Heading } from "components/global/Heading";
+import Image from "next/image";
 
 const Pokecoins: NextPage = () => {
   const [hours, setHours] = useState("");
@@ -62,11 +63,11 @@ const Pokecoins: NextPage = () => {
   }, [coins])
 
   return (
-    <GlobalContainer>
+    <section>
       <Head><title>{title} Pokecoins</title></Head>
 
       <Navbar />
-      <Title>{langContent.calculator}</Title>
+      <Heading>{langContent.calculator}</Heading>
 
       <Content>
         <h2>{langContent.gymTime}</h2>
@@ -99,7 +100,7 @@ const Pokecoins: NextPage = () => {
             key={`btn${coins}`}
             onClick={handleCoinCalculation}
           >
-            <img src="/assets/pokecoin.png" alt="Pokecoin" draggable="false" />
+            <Image src="/assets/pokecoin.png" alt="Pokecoin" draggable="false" />
           </button>
           <span
             id="coins"
@@ -112,7 +113,7 @@ const Pokecoins: NextPage = () => {
           </span>
         </Separator>
       </Content>
-    </GlobalContainer>
+    </section>
   )
 }
 

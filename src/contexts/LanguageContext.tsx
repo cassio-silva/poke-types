@@ -1,3 +1,5 @@
+'use client'
+
 import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useState } from "react";
 import eng from "../json/lang/eng.json";
 import ptbr from "../json/lang/ptbr.json";

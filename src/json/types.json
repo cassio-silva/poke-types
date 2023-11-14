@@ -1,108 +1,162 @@
 [
   {
-    "typeLabel": "bug",
+    "typeLabel": {
+      "en": "bug",
+      "pt-br": "inseto"
+    },
     "img": "assets/bug.png",
     "advantages": ["dark", "grass", "psychic"],
     "disadvantages": ["fire", "flying", "rock"]
   },
   {
-    "typeLabel": "dark",
+    "typeLabel": {
+      "en": "dark",
+      "pt-br": "trevas"
+    },
     "img": "assets/dark.png",
     "advantages": ["ghost", "psychic"],
     "disadvantages": ["bug", "fairy", "fighting"]
   },
   {
-    "typeLabel": "dragon",
+    "typeLabel": {
+      "en": "dragon",
+      "pt-br": "dragão"
+    },
     "img": "assets/dragon.png",
     "advantages": ["dragon"],
     "disadvantages": ["dragon", "fairy", "ice"]
   },
   {
-    "typeLabel": "normal",
+    "typeLabel": {
+      "en": "normal",
+      "pt-br": "normal"
+    },
     "img": "assets/normal.png",
     "advantages": [],
     "disadvantages": ["fighting"]
   },
   {
-    "typeLabel": "steel",
+    "typeLabel": {
+      "en": "steel",
+      "pt-br": "aço"
+    },
     "img": "assets/steel.png",
     "advantages": ["fairy", "ice", "rock"],
     "disadvantages": ["fighting", "fire", "ground"]
   },
   {
-    "typeLabel": "fairy",
+    "typeLabel": {
+      "en": "fairy",
+      "pt-br": "fada"
+    },
     "img": "assets/fairy.png",
     "advantages": ["dark", "dragon", "fighting"],
     "disadvantages": ["poison", "steel"]
   },
   {
-    "typeLabel": "fighting",
+    "typeLabel": {
+      "en": "fighting",
+      "pt-br": "lutador"
+    },
     "img": "assets/fighting.png",
     "advantages": ["dark", "ice", "normal", "rock", "steel"],
     "disadvantages": ["fairy", "flying", "psychic"]
   },
   {
-    "typeLabel": "ghost",
+    "typeLabel": {
+      "en": "ghost",
+      "pt-br": "fantasma"
+    },
     "img": "assets/ghost.png",
     "advantages": ["ghost", "psychic"],
     "disadvantages": ["ghost", "dark"]
   },
   {
-    "typeLabel": "fire",
+    "typeLabel": {
+      "en": "fire",
+      "pt-br": "fogo"
+    },
     "img": "assets/fire.png",
     "advantages": ["bug", "grass", "ice", "steel"],
     "disadvantages": ["ground", "rock", "water"]
   },
   {
-    "typeLabel": "water",
+    "typeLabel": {
+      "en": "water",
+      "pt-br": "água"
+    },
     "img": "assets/water.png",
     "advantages": ["ground", "rock", "fire"],
     "disadvantages": ["electric", "grass"]
   },
   {
-    "typeLabel": "electric",
+    "typeLabel": {
+      "en": "electric",
+      "pt-br": "elétrico"
+    },
     "img": "assets/electric.png",
     "advantages": ["flying", "water"],
     "disadvantages": ["ground"]
   },
   {
-    "typeLabel": "flying",
+    "typeLabel": {
+      "en": "flying",
+      "pt-br": "voador"
+    },
     "img": "assets/flying.png",
     "advantages": ["bug", "grass", "fighting"],
     "disadvantages": ["electric", "ice", "rock"]
   },
   {
-    "typeLabel": "psychic",
+    "typeLabel": {
+      "en": "psychic",
+      "pt-br": "psíquico"
+    },
     "img": "assets/psychic.png",
     "advantages": ["fighting", "poison"],
     "disadvantages": ["bug", "dark", "ghost"]
   },
   {
-    "typeLabel": "ground",
+    "typeLabel": {
+      "en": "ground",
+      "pt-br": "terrestre"
+    },
     "img": "assets/ground.png",
     "advantages": ["electric", "fire", "poison", "rock", "steel"],
     "disadvantages": ["grass", "ice", "water"]
   },
   {
-    "typeLabel": "rock",
+    "typeLabel": {
+      "en": "rock",
+      "pt-br": "pedra"
+    },
     "img": "assets/rock.png",
     "advantages": ["grass", "fire", "flying", "ice"],
     "disadvantages": ["fighting", "grass", "ground", "steel", "water"]
   },
   {
-    "typeLabel": "ice",
+    "typeLabel": {
+      "en": "ice",
+      "pt-br": "gelo"
+    },
     "img": "assets/ice.png",
     "advantages": ["dragon", "flying", "ground", "grass"],
     "disadvantages": ["fighting", "fire", "rock", "steel"]
   },
   {
-    "typeLabel": "poison",
+    "typeLabel": {
+      "en": "poison",
+      "pt-br": "veneno"
+    },
     "img": "assets/poison.png",
     "advantages": ["fairy", "grass"],
     "disadvantages": ["ground", "psychic"]
   },
   {
-    "typeLabel": "grass",
+    "typeLabel": {
+      "en": "grass",
+      "pt-br": "grama"
+    },
     "img": "assets/grass.png",
     "advantages": ["ground", "rock", "water"],
     "disadvantages": ["bug", "fire", "flying", "ice", "poison"]
