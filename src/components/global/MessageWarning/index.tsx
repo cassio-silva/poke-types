@@ -1,22 +1,25 @@
+import { ReactNode } from "react"
+
 interface MessageWarningProps {
-  messageType?: 'warning' | 'error'
-  children: string
+  isErrorMessage?: boolean
+  children: ReactNode
 }
 
 export function MessageWarning({
   children,
-  messageType = 'warning',
+  isErrorMessage = false,
 }: MessageWarningProps) {
-  if (messageType === 'error') {
+  const className = 'w-fit max-w-[95%] text-lg text-center mx-auto mt-8 px-4 py-1 shadow-md font-roboto font-semibold rounded-xl animate-fadeIn'
+  if (isErrorMessage) {
     return (
-      <p className="w-fit mx-auto mt-8 px-4 py-1 shadow-md bg-gradient-to-r from-red-200 to-red-500 text-white font-roboto font-semibold text-2xl rounded-xl animate-fadeIn">
+      <p className={`${className} bg-gradient-to-br from-red-200 to-red-500 text-white`}>
         {children}
       </p>
     )
   }
 
   return (
-    <p className="w-fit mx-auto mt-8 px-4 py-1 shadow-md bg-yellow-200 text-gray-300 font-roboto font-semibold text-2xl rounded-xl animate-fadeIn">
+    <p className={`${className} bg-yellow-300 text-gray-300`}>
       {children}
     </p>
   )

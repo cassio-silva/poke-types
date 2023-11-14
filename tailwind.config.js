@@ -138,27 +138,18 @@ module.exports = {
         },
         glow: {
           '0%': {
+            filter: 'brightness(100%)',
             boxShadow: '0 0 6px 2px var(--tw-shadow-color)',
           },
           '50%': {
+            filter: 'brightness(120%)',
             boxShadow: '0 0 12px 3px var(--tw-shadow-color)',
           },
           '100%': {
+            filter: 'brightness(100%)',
             boxShadow: '0 0 6px 2px var(--tw-shadow-color)',
           },
         },
-        expandDown: {
-          '0%': {
-            height: 0,
-            maxheight: 0,
-            opacity: 0
-          },
-          '100%': {
-            height: '100%',
-            maxheight: '300px',
-            opacity: 1
-          },
-        }
       },
       animation: {
         fadeIn: 'fadeIn 200ms linear forwards',
@@ -167,9 +158,9 @@ module.exports = {
           'pokeballSpawnMobile 300ms ease forwards',
         'pokeball-spin': 'pokeballSpin 300ms ease-in-out forwards',
         glow: 'glow 1s ease infinite',
-        'expand-down': 'expandDown 300ms ease forwards'
       },
       screens: {
+        mobile: '440px',
         widescreen: '1600px',
         desktop: '1200px',
       },

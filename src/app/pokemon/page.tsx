@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { PokemonCards } from 'components/PokemonCards'
 import { Pagination } from 'components/Pagination'
 import { PokemonProps } from 'entities/Pokemon'
@@ -8,11 +8,9 @@ import { Heading } from 'components/global/Heading'
 // JSON
 import types from 'json/types.json'
 import Image from 'next/image'
-import {
-  ChevronDownIcon,
-  XCircleIcon,
-} from '@heroicons/react/24/outline'
+import { ChevronDownIcon } from '@heroicons/react/24/outline'
 import { ButtonClose } from 'components/global/ButtonClose'
+import { MessageWarning } from 'components/global/MessageWarning'
 
 interface PokemonDataProps {
   data: PokemonProps[]
@@ -27,6 +25,7 @@ async function getPokemonData(
     next: {
       revalidate: 300,
     },
+    cache: 'force-cache',
   })
   const data = await res?.json()
 
@@ -101,7 +100,6 @@ export default function Pokemon() {
       setIsLoading(true)
       const pokemon = await getPokemonData(endpoint)
       setPokemon(pokemon)
-      setFilteredPokemon(pokemon.data)
       setIsLoading(false)
     } catch (err) {
       console.error(err)
@@ -131,7 +129,8 @@ export default function Pokemon() {
 
   useEffect(() => {
     filterByType()
-  }, [selectedTypes])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedTypes, pokemon.data])
 
   useEffect(() => {
     loadPokemon(`limit=${itemsPerPage}&offset=0`)
@@ -140,13 +139,13 @@ export default function Pokemon() {
   }, [])
 
   return (
-    <section className="flex flex-col gap-8 pb-10">
+    <>
       <Heading>
         Pokémon by <br />
         Types
       </Heading>
 
-      <article className="flex flex-col w-full gap-4 mx-auto">
+      <article className="flex flex-col w-full gap-2 mx-auto">
         {/* filter button */}
         <button
           className="flex gap-2 items-center justify-center font-barlow w-fit mx-auto text-base text-white px-2 bg-gradient-to-b from-gray-100 to-gray-200 rounded-md hover:brightness-90"
@@ -162,12 +161,13 @@ export default function Pokemon() {
         {/* Type buttons */}
         <div
           data-expanded={isVisible}
-          className="w-fit grid grid-cols-[repeat(6,auto)] place-items-center gap-1 mx-auto data-[expanded=false]:hidden"
+          className={`w-fit h-fit max-h-0 grid grid-cols-[repeat(6,auto)] lg:grid-cols-9 overflow-hidden place-items-center gap-1 mx-auto  
+            transition-all data-[expanded=true]:max-h-[300px] data-[expanded=true]:p-4 data-[expanded=true]:pt-6`}
         >
           {types.map((type) => (
             <button
               className={
-                'group flex items-center justify-center relative w-14 h-14 lg:w-16 lg:h-16 bg-white rounded-full p-1 filter brightness-75 transition hover:brightness-100 aria-expanded:brightness-100 aria-expanded:shadow-[0_0_12px_3px_rgba(255,255,255,1)]'
+                'group flex items-center justify-center relative w-[52px] h-[52px] lg:w-16 lg:h-16 bg-white rounded-full p-1 filter brightness-75 transition hover:brightness-100 aria-expanded:brightness-100 aria-expanded:shadow-[0_0_12px_3px_rgba(255,255,255,1)]'
               }
               key={type.typeLabel.en}
               aria-expanded={
@@ -202,6 +202,7 @@ export default function Pokemon() {
         getNextPage={loadNextPage}
         getPreviousPage={loadPreviousPage}
       />
+
       {isLoading ? (
         <Image
           width={100}
@@ -211,8 +212,15 @@ export default function Pokemon() {
           alt=""
         />
       ) : (
-        <PokemonCards pokemon={filteredPokemon} />
+        <PokemonCards
+          pokemon={filteredPokemon}
+          hasFilterNotFoundPokemon={
+            !isLoading &&
+            filteredPokemon.length < 1 &&
+            Boolean(selectedTypes[0])
+          }
+        />
       )}
-    </section>
+    </>
   )
 }

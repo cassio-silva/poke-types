@@ -8,9 +8,13 @@ import { MessageWarning } from 'components/global/MessageWarning'
 
 type PokemonCardProps = {
   pokemon: Pokemon[]
+  hasFilterNotFoundPokemon: boolean
 }
 
-export function PokemonCards({ pokemon }: PokemonCardProps) {
+export function PokemonCards({
+  pokemon,
+  hasFilterNotFoundPokemon,
+}: PokemonCardProps) {
   const [active, setActive] = useState<number | null>(null)
 
   function toggleActiveCard(id: number) {
@@ -21,23 +25,32 @@ export function PokemonCards({ pokemon }: PokemonCardProps) {
     }
   }
 
+  if (hasFilterNotFoundPokemon) {
+    return (
+      <MessageWarning>
+        No pokemon of this type was found.
+      </MessageWarning>
+    )
+  }
+
   return (
-    <section className="w-11/12 lg:w-fit grid grid-cols-[repeat(2,auto)] md:grid-cols-4 desktop:grid-cols-[repeat(6,160px)] place-items-center gap-3 mx-auto animate-fadeIn">
+    <section className="w-11/12 lg:w-fit grid grid-cols-3 md:grid-cols-4 desktop:grid-cols-[repeat(6,160px)] place-items-center gap-3 mx-auto pb-6 animate-fadeIn">
       {pokemon?.map((poke) => (
         // Card
         <article
           onClick={() => toggleActiveCard(poke.id)}
           key={poke.id}
           aria-selected={active === poke.id}
-          className={`flex w-full h-full max-w-[160px] min-h-[180px]
-          bg-white shadow-md shadow-gray-300 rounded rounded-bl-2xl rounded-tr-2xl p-2`}
+          className={`flex w-full h-fit max-w-[160px]
+          bg-white shadow-md shadow-gray-300 rounded rounded-bl-2xl rounded-tr-2xl p-[5px]`}
         >
           <div
-            className={`flex flex-col relative w-full h-full mx-auto bg-gradient-radial from-white to-yellow-400 rounded-lg
+            className={`
+            flex flex-col relative w-full h-full mx-auto bg-gradient-radial from-white to-yellow-400 rounded-xl pb-3 mobile:pb-0
               `}
           >
             {/* pokemon name */}
-            <strong className="bg-gradient-to-br from-blue-200 to-purple-200 text-white capitalize font-semibold text-sm text-center rounded-md">
+            <strong className="bg-gradient-to-br from-blue-200 to-purple-200 text-white text-xs lg:text-base text-center capitalize font-semibold rounded-md">
               {poke.name}
             </strong>
 
@@ -48,7 +61,7 @@ export function PokemonCards({ pokemon }: PokemonCardProps) {
               height={100}
               quality={100}
               draggable="false"
-              className="w-full h-full"
+              className="w-full"
             />
 
             {/* types */}
