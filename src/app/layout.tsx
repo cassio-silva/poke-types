@@ -3,6 +3,7 @@ import { ReactNode } from 'react'
 import { Metadata } from 'next'
 import '../styles/global.css'
 import { roboto, poppins, garamond, barlow } from 'fonts/loader'
+import { ButtonBackToTop } from 'components/global/BackToTopButton'
 
 export const metadata: Metadata = {
   title: 'Poketools',
@@ -23,6 +24,7 @@ export default function RootLayout({
         <Navbar />
         <main className="w-full flex flex-col gap-8 lg:gap-12 mt-0 lg:mt-20 mb-16 lg:mb-0 pb-14 lg:pb-0">
           {children}
+          <ButtonBackToTop />
         </main>
       </body>
     </html>
