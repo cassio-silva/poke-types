@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useWindowSize } from 'hooks/useWindowSize'
 import { NavbarLink } from './NavbarLinks'
 import Image from 'next/image'

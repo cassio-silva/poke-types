@@ -1,16 +1,15 @@
 'use client'
 
-import { Suspense, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PokemonCards } from 'components/PokemonCards'
 import { Pagination } from 'components/Pagination'
-import { PokemonProps } from 'entities/Pokemon'
 import { Heading } from 'components/global/Heading'
+import { ButtonClose } from 'components/global/ButtonClose'
+import { ChevronDownIcon } from '@heroicons/react/24/outline'
+import { PokemonProps } from 'entities/Pokemon'
 // JSON
 import types from 'json/types.json'
 import Image from 'next/image'
-import { ChevronDownIcon } from '@heroicons/react/24/outline'
-import { ButtonClose } from 'components/global/ButtonClose'
-import { MessageWarning } from 'components/global/MessageWarning'
 
 interface PokemonDataProps {
   data: PokemonProps[]
@@ -27,7 +26,7 @@ async function getPokemonData(
     },
     cache: 'force-cache',
   })
-  const data = await res?.json()
+  const data: PokemonDataProps = await res?.json()
 
   return {
     data: data.data,
@@ -37,7 +36,10 @@ async function getPokemonData(
 }
 
 export default function Pokemon() {
-  const [selectedTypes, setSelectedTypes] = useState<string[]>(['', ''])
+  const [selectedTypes, setSelectedTypes] = useState<[string, string]>([
+    '',
+    '',
+  ])
   const [pokemon, setPokemon] = useState<PokemonDataProps>({
     data: [],
     next: '',
@@ -49,7 +51,7 @@ export default function Pokemon() {
   const [isLoading, setIsLoading] = useState(false)
   const [currentPage, setcurrentPage] = useState(1)
   const [isVisible, setIsVisible] = useState(true)
-  const itemsPerPage = 24
+  const itemsPerPage = 48
 
   function filterByType() {
     try {

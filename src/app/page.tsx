@@ -4,7 +4,6 @@ import { SearchInput } from 'components/SearchInput'
 import { TypeComponentCard } from 'components/TypeComponent'
 import { useState } from 'react'
 import { Heading } from 'components/global/Heading'
-import { XCircleIcon } from '@heroicons/react/20/solid'
 import { TypeAdvantages } from 'entities/PokemonTypes'
 
 import types from '../json/types.json'
