@@ -22,9 +22,8 @@ async function getPokemonData(
 ): Promise<PokemonDataProps> {
   const res = await fetch(`/api/pokemon?${endpoint}`, {
     next: {
-      revalidate: 300,
+      revalidate: 3600,
     },
-    cache: 'force-cache',
   })
   const data: PokemonDataProps = await res?.json()
 
@@ -199,12 +198,6 @@ export default function Pokemon() {
         />
       </article>
 
-      <Pagination
-        currentPage={currentPage}
-        getNextPage={loadNextPage}
-        getPreviousPage={loadPreviousPage}
-      />
-
       {isLoading ? (
         <Image
           width={100}
@@ -223,6 +216,14 @@ export default function Pokemon() {
           }
         />
       )}
+
+      <div className="pb-9">
+        <Pagination
+          currentPage={currentPage}
+          getNextPage={loadNextPage}
+          getPreviousPage={loadPreviousPage}
+        />
+      </div>
     </>
   )
 }

@@ -9,7 +9,15 @@ export async function GET(req: NextRequest) {
   const offset = searchParams.get('offset')
 
   if (!limit && !offset) {
-    return
+    console.error('No "limit" was set')
+    return new NextResponse(
+      JSON.stringify({
+        message: 'No "limit" was set',
+      }),
+      {
+        status: 500,
+      }
+    )
   }
 
   try {
@@ -19,7 +27,7 @@ export async function GET(req: NextRequest) {
 
     const pokemonList = response.data
     const pokemonData = pokemonList.results
-    
+
     const pokemonDataDetailed = pokemonData.map(async (poke) => {
       const _pokeData = await api.get<PokemonProps>(poke.url)
       return _pokeData.data
@@ -47,6 +55,7 @@ export async function GET(req: NextRequest) {
       previous: pokemonList.previous,
     })
   } catch (err) {
+    console.error(err)
     return new NextResponse(`${err}`, { status: 500 })
   }
 }

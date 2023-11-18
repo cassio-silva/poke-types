@@ -8,14 +8,8 @@ export function ButtonBackToTop() {
   
   function handleScroll() {
     const scrollPosition = window.scrollY
-    const windowHeight = window.innerHeight
-    const documentHeight = document.body.scrollHeight
 
-    if (documentHeight / 3 - windowHeight / 3 <= 0) {
-      return
-    }
-
-    if (scrollPosition > documentHeight / 3 - windowHeight / 3) {
+    if (scrollPosition > 200) {
       setIsVisible(true)
     } else {
       setIsVisible(false)
