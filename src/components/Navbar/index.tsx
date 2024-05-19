@@ -1,15 +1,15 @@
-'use client'
-import { useEffect, useState } from 'react'
-import { useWindowSize } from 'hooks/useWindowSize'
-import { NavbarLink } from './NavbarLinks'
-import Image from 'next/image'
+'use client';
+import { useEffect, useState } from 'react';
+import { useWindowSize } from 'hooks/useWindowSize';
+import { NavbarLink } from './NavbarLinks';
+import Image from 'next/image';
 
 export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false)
-  const { width } = useWindowSize()
+  const [isOpen, setIsOpen] = useState(false);
+  const { width } = useWindowSize();
 
   function handleToggleMenu() {
-    setIsOpen(!isOpen)
+    setIsOpen(!isOpen);
   }
 
   if (width && width <= 768) {
@@ -48,7 +48,7 @@ export function Navbar() {
           <NavbarLink href="/pokecoins">Pokecoin Calculator</NavbarLink>
         </nav>
       </header>
-    )
+    );
   }
 
   return (
@@ -82,5 +82,5 @@ export function Navbar() {
         <option value="eng">ENG</option>
       </select> */}
     </header>
-  )
+  );
 }

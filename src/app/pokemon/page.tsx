@@ -1,143 +1,143 @@
-'use client'
+'use client';
 
-import { useEffect, useState } from 'react'
-import { PokemonCards } from 'components/PokemonCards'
-import { Pagination } from 'components/Pagination'
-import { Heading } from 'components/global/Heading'
-import { ButtonClose } from 'components/global/ButtonClose'
-import { ChevronDownIcon } from '@heroicons/react/24/outline'
-import { PokemonProps } from 'entities/Pokemon'
+import { useEffect, useState } from 'react';
+import { PokemonCards } from 'components/PokemonCards';
+import { Pagination } from 'components/Pagination';
+import { Heading } from 'components/global/Heading';
+import { ButtonClose } from 'components/global/ButtonClose';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import { PokemonProps, PokemonResponseProps } from 'entities/Pokemon';
+import { api } from 'services/api';
+import Image from 'next/image';
 // JSON
-import types from 'json/types.json'
-import Image from 'next/image'
-
-interface PokemonDataProps {
-  data: PokemonProps[]
-  next: string
-  previous: string
-}
+import types from 'json/types.json';
 
 async function getPokemonData(
-  endpoint: string
-): Promise<PokemonDataProps> {
-  const res = await fetch(`/api/pokemon?${endpoint}`, {
-    next: {
-      revalidate: 3600,
-    },
-  })
-  const data: PokemonDataProps = await res?.json()
+  itemsPerPage: number,
+  offset: number
+): Promise<PokemonResponseProps> {
+  const res = await api.get(
+    `/api/pokemon?limit=${itemsPerPage}&offset=${offset}`
+  );
+  const data = res.data;
 
   return {
     data: data.data,
     next: data.next,
     previous: data.previous,
-  }
+  };
 }
+
+async function getPokemonByTypes(
+  type1: string,
+  type2: string
+): Promise<PokemonProps[] | undefined> {
+  if (!type1) {
+    return;
+  }
+  const res = await api.get(
+    `/api/type?type1=${type1}${!!type2 ? `&type2=${type2}` : ''}`
+  );
+  const pokemonData = res.data;
+
+  return pokemonData.data;
+}
+
+export const revalidate = 300;
 
 export default function Pokemon() {
   const [selectedTypes, setSelectedTypes] = useState<[string, string]>([
     '',
     '',
-  ])
-  const [pokemon, setPokemon] = useState<PokemonDataProps>({
+  ]);
+  const [pokemon, setPokemon] = useState<PokemonResponseProps>({
     data: [],
     next: '',
     previous: '',
-  })
-  const [filteredPokemon, setFilteredPokemon] = useState<
-    PokemonProps[]
-  >([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [currentPage, setcurrentPage] = useState(1)
-  const [isVisible, setIsVisible] = useState(true)
-  const itemsPerPage = 48
+  });
 
-  function filterByType() {
-    try {
-      const pokemonFiltered = pokemon.data.filter((poke) => {
-        if (
-          poke.types.some((pokeType) =>
-            pokeType.type.name.startsWith(selectedTypes[0])
-          ) &&
-          poke.types.some((pokeType) =>
-            pokeType.type.name.startsWith(selectedTypes[1])
-          )
-        ) {
-          return poke
-        }
-        return false
-      })
-      const pokemonOrdered = pokemonFiltered.sort((pokeA, pokeB) =>
-        pokeA.id > pokeB.id ? 1 : -1
-      )
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setcurrentPage] = useState(1);
+  const [isVisible, setIsVisible] = useState(true);
+  const getNumberRegex = /\d+/g;
+  const itemsPerPage = 48;
 
-      setFilteredPokemon(pokemonOrdered)
-    } catch (err) {
-      console.error(err)
-    }
+  async function handlePokemonByTypes() {
+    setIsLoading(true);
+    const pokeRes = await getPokemonByTypes(selectedTypes[0], selectedTypes[1]);
+
+    setPokemon({
+      data: pokeRes!,
+      next: '',
+      previous: '',
+    });
+    setIsLoading(false);
   }
 
   function handleTypeSelection(type: string) {
-    if (
-      !selectedTypes[0] ||
-      (!!selectedTypes[0] && !!selectedTypes[1])
-    ) {
-      setSelectedTypes([type, ''])
+    if (!selectedTypes[0] || (!!selectedTypes[0] && !!selectedTypes[1])) {
+      setSelectedTypes([type, '']);
     }
     if (!!selectedTypes[0] && !selectedTypes[1]) {
-      setSelectedTypes([selectedTypes[0], type])
+      setSelectedTypes([selectedTypes[0], type]);
     }
     if (selectedTypes[0] === type || selectedTypes[1] === type) {
-      resetTypes()
+      resetTypes();
     }
   }
 
   function resetTypes() {
-    setSelectedTypes(['', ''])
+    setSelectedTypes(['', '']);
   }
 
-  async function loadPokemon(endpoint: string) {
+  async function loadPokemon(offset: number) {
     try {
-      setIsLoading(true)
-      const pokemon = await getPokemonData(endpoint)
-      setPokemon(pokemon)
-      setIsLoading(false)
+      setIsLoading(true);
+      const pokemon = await getPokemonData(itemsPerPage, offset);
+      setPokemon(pokemon);
+      setIsLoading(false);
     } catch (err) {
-      console.error(err)
-      setIsLoading(false)
+      console.error(err);
+      setIsLoading(false);
     }
   }
 
   async function loadNextPage() {
     if (!!pokemon.next && !isLoading) {
-      loadPokemon(pokemon.next?.split('/v2/pokemon?')[1]).then(() =>
-        setcurrentPage(currentPage + 1)
-      )
+      // Gets the offset number from the "next" string
+      const nextPageOffset = Number(pokemon.next?.match(getNumberRegex)?.[1]);
+      loadPokemon(nextPageOffset).then(() => setcurrentPage(currentPage + 1));
     }
   }
 
   async function loadPreviousPage() {
     if (!!pokemon.previous && currentPage > 1 && !isLoading) {
-      loadPokemon(pokemon.previous?.split('/v2/pokemon?')[1]).then(() =>
+      const previousPageOffset = Number(
+        pokemon.previous?.match(getNumberRegex)?.[1]
+      );
+      loadPokemon(previousPageOffset).then(() =>
         setcurrentPage(currentPage - 1)
-      )
+      );
     }
   }
 
   function handleToggleFilterVisible() {
-    setIsVisible(!isVisible)
+    setIsVisible(!isVisible);
   }
 
   useEffect(() => {
-    filterByType()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedTypes, pokemon.data])
+    if (selectedTypes[0] || selectedTypes[1]) {
+      handlePokemonByTypes();
+    } else {
+      loadPokemon(0);
+    }
+  }, [selectedTypes]);
 
   useEffect(() => {
-    loadPokemon(`limit=${itemsPerPage}&offset=0`)
-    setcurrentPage(1)
+    loadPokemon(0);
+    setcurrentPage(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   return (
     <>
@@ -208,22 +208,22 @@ export default function Pokemon() {
         />
       ) : (
         <PokemonCards
-          pokemon={filteredPokemon}
+          pokemon={pokemon.data}
           hasFilterNotFoundPokemon={
-            !isLoading &&
-            filteredPokemon.length < 1 &&
-            Boolean(selectedTypes[0])
+            !isLoading && pokemon.data.length < 1 && Boolean(selectedTypes[0])
           }
         />
       )}
 
       <div className="pb-9">
-        <Pagination
-          currentPage={currentPage}
-          getNextPage={loadNextPage}
-          getPreviousPage={loadPreviousPage}
-        />
+        {!selectedTypes[0] && (
+          <Pagination
+            currentPage={currentPage}
+            getNextPage={loadNextPage}
+            getPreviousPage={loadPreviousPage}
+          />
+        )}
       </div>
     </>
-  )
+  );
 }
