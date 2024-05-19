@@ -1,27 +1,30 @@
-interface PokemonProps {
-  name: string;
-  id: number;
+type PokemonProps = {
+  name: string
+  id: number
   sprites: {
-    front_default: string;
-    back_default: string;
-  };
+    front_default: string
+    back_default: string
+  }
   types: {
     type: {
-      name: string;
+      name: string
     }
   }[]
 }
 
-interface PokemonListProps {
+type PokemonListProps = {
   results: {
-    name: string;
-    url: string;
-  }[],
-  next: string;
-  previous: string;
+    name: string
+    url: string
+  }[]
+  next: string
+  previous: string
 }
 
-export type {
-  PokemonProps,
-  PokemonListProps
+type PokemonResponseProps = {
+  data: PokemonProps[]
+  next: string
+  previous: string
 }
+
+export type { PokemonProps, PokemonListProps, PokemonResponseProps}
