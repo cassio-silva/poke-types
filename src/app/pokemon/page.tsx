@@ -11,39 +11,7 @@ import { api } from 'services/api';
 import Image from 'next/image';
 // JSON
 import types from 'json/types.json';
-
-async function getPokemonData(
-  itemsPerPage: number,
-  offset: number
-): Promise<PokemonResponseProps> {
-  const res = await api.get(
-    `/api/pokemon?limit=${itemsPerPage}&offset=${offset}`
-  );
-  const data = res.data;
-
-  return {
-    data: data.data,
-    next: data.next,
-    previous: data.previous,
-  };
-}
-
-async function getPokemonByTypes(
-  type1: string,
-  type2: string
-): Promise<PokemonProps[] | undefined> {
-  if (!type1) {
-    return;
-  }
-  const res = await api.get(
-    `/api/type?type1=${type1}${!!type2 ? `&type2=${type2}` : ''}`
-  );
-  const pokemonData = res.data;
-
-  return pokemonData.data;
-}
-
-export const revalidate = 300;
+import { SelectItemsPerPage } from 'components/SelectItemsPerPage';
 
 export default function Pokemon() {
   const [selectedTypes, setSelectedTypes] = useState<[string, string]>([
@@ -55,23 +23,30 @@ export default function Pokemon() {
     next: '',
     previous: '',
   });
-
-  const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setcurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(48);
+  const [isLoading, setIsLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const getNumberRegex = /\d+/g;
-  const itemsPerPage = 48;
 
   async function handlePokemonByTypes() {
-    setIsLoading(true);
-    const pokeRes = await getPokemonByTypes(selectedTypes[0], selectedTypes[1]);
+    try {
+      setIsLoading(true);
+      const pokeRes = await getPokemonByTypes(
+        selectedTypes[0],
+        selectedTypes[1]
+      );
 
-    setPokemon({
-      data: pokeRes!,
-      next: '',
-      previous: '',
-    });
-    setIsLoading(false);
+      setPokemon({
+        data: pokeRes!,
+        next: '',
+        previous: '',
+      });
+      setIsLoading(false);
+    } catch (err) {
+      console.error(err);
+      setIsLoading(false);
+    }
   }
 
   function handleTypeSelection(type: string) {
@@ -121,17 +96,26 @@ export default function Pokemon() {
     }
   }
 
+  async function handleCurrentPageValue(pageNumber: number) {
+    setcurrentPage(pageNumber);
+    loadPokemon((pageNumber - 1) * itemsPerPage);
+  }
+
   function handleToggleFilterVisible() {
     setIsVisible(!isVisible);
+  }
+
+  function handleSelectItemsPerPage(value: number) {
+    setItemsPerPage(value);
   }
 
   useEffect(() => {
     if (selectedTypes[0] || selectedTypes[1]) {
       handlePokemonByTypes();
     } else {
-      loadPokemon(0);
+      loadPokemon((currentPage - 1) * itemsPerPage);
     }
-  }, [selectedTypes]);
+  }, [selectedTypes, itemsPerPage]);
 
   useEffect(() => {
     loadPokemon(0);
@@ -151,6 +135,7 @@ export default function Pokemon() {
         <button
           className="flex gap-2 items-center justify-center font-barlow w-fit mx-auto text-base text-white px-2 bg-gradient-to-b from-gray-100 to-gray-200 rounded-md hover:brightness-90"
           onClick={handleToggleFilterVisible}
+          type="button"
         >
           Types
           <ChevronDownIcon
@@ -176,6 +161,7 @@ export default function Pokemon() {
                 selectedTypes[1] === type.typeLabel.en
               }
               onClick={() => handleTypeSelection(type.typeLabel.en)}
+              type="button"
             >
               <Image
                 width={200}
@@ -196,7 +182,22 @@ export default function Pokemon() {
           onClick={resetTypes}
           disabled={Boolean(!selectedTypes[0] && !selectedTypes[1])}
         />
+        <SelectItemsPerPage
+          itemsPerPage={itemsPerPage}
+          type1={selectedTypes[0]}
+          type2={selectedTypes[1]}
+          setItemsPerPage={handleSelectItemsPerPage}
+        />
       </article>
+
+      {!selectedTypes[0] && !isLoading && (
+        <Pagination
+          currentPage={currentPage}
+          getNextPage={loadNextPage}
+          getPreviousPage={loadPreviousPage}
+          setCurrentPage={handleCurrentPageValue}
+        />
+      )}
 
       {isLoading ? (
         <Image
@@ -221,9 +222,48 @@ export default function Pokemon() {
             currentPage={currentPage}
             getNextPage={loadNextPage}
             getPreviousPage={loadPreviousPage}
+            setCurrentPage={handleCurrentPageValue}
           />
         )}
       </div>
     </>
   );
+}
+
+// Server functions
+
+async function getPokemonData(
+  itemsPerPage: number,
+  offset: number
+): Promise<PokemonResponseProps> {
+  const res = await fetch(
+    `/api/pokemon?limit=${itemsPerPage}&offset=${offset}`,
+    {
+      next: {
+        tags: ['pokemon', itemsPerPage.toString(), offset.toString()],
+      },
+    }
+  );
+  const data = await res.json();
+
+  return {
+    data: data.data,
+    next: data.next,
+    previous: data.previous,
+  };
+}
+
+async function getPokemonByTypes(
+  type1: string,
+  type2: string
+): Promise<PokemonProps[] | undefined> {
+  if (!type1) {
+    return;
+  }
+  const res = await fetch(
+    `/api/type?type1=${type1}${!!type2 ? `&type2=${type2}` : ''}`
+  );
+  const pokemonData = await res.json();
+
+  return pokemonData.data;
 }
