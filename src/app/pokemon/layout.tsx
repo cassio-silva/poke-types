@@ -22,9 +22,9 @@ export default function PokemonLayout({
       <PokemonTypeSelector params={params} />
 
       <Suspense fallback={<PokemonLoading />}>
-        <article className="flex flex-col w-full gap-2 mx-auto">
+        <section className="flex flex-col w-full gap-3 mx-auto">
           {children}
-        </article>
+        </section>
       </Suspense>
     </>
   );

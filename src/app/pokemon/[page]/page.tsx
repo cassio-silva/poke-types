@@ -28,7 +28,7 @@ export default async function PokemonPage({
   const pokemonData = await GetPokemon(params.page, itemsPerPage);
 
   return (
-    <section>
+    <>
       <PaginationWithLink currentPage={currentPage} />
 
       <PokemonCards
@@ -37,6 +37,6 @@ export default async function PokemonPage({
       />
 
       <PaginationWithLink currentPage={currentPage} />
-    </section>
+    </>
   );
 }
