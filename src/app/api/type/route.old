@@ -30,11 +30,11 @@ export async function GET(req: NextRequest) {
     });
   }
 
-  try {
-    const params = req.nextUrl.searchParams;
-    const type1 = params.get('type1')!;
-    const type2 = params.get('type2');
+  const params = req.nextUrl.searchParams;
+  const type1 = params.get('type1')!;
+  const type2 = params.get('type2');
 
+  try {
     let type2Response = null;
 
     const type1Response = await fetch(

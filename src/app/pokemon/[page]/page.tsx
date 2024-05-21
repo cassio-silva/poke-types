@@ -1,19 +1,50 @@
 import { PaginationWithLink } from 'components/Pagination/PaginationWithLink';
 import { PokemonCards } from 'components/PokemonCards';
-import { PokemonProps } from 'entities/Pokemon';
+import { PokemonListProps, PokemonProps } from 'entities/Pokemon';
 
 async function GetPokemon(
   page: string,
   itemsPerPage: number
-): Promise<PokemonProps[]> {
+): Promise<{
+  data: PokemonProps[];
+  next: string;
+  previous: string;
+}> {
   const currentPage = Number(page);
   const offset = (currentPage - 1) * itemsPerPage;
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_ENDPOINT}/api/pokemon?limit=${itemsPerPage}&offset=${offset}`
-  );
-  const pokemonData = await res.json();
+  const response: PokemonListProps = await fetch(
+    `https://pokeapi.co/api/v2/pokemon?limit=${itemsPerPage}&offset=${offset}`,
+    {
+      method: 'GET',
+      next: {
+        revalidate: 300,
+      },
+    }
+  ).then((res) => res.json());
 
-  return pokemonData.data;
+  const pokemonData = response.results;
+
+  const pokemonDataDetailed = pokemonData.map(async (poke) => {
+    const _pokeData: PokemonProps = await fetch(poke.url).then((res) =>
+      res.json()
+    );
+    return _pokeData;
+  });
+  const pokemonFullData = await Promise.all(pokemonDataDetailed);
+  const pokemonDataReady = pokemonFullData.map((_poke) => {
+    return {
+      id: _poke.id,
+      name: _poke.name,
+      sprites: _poke.sprites,
+      types: _poke.types,
+    };
+  });
+
+  return {
+    data: pokemonDataReady,
+    next: response.next,
+    previous: response.previous,
+  };
 }
 
 export const revalidate = 300;
@@ -32,8 +63,8 @@ export default async function PokemonPage({
       <PaginationWithLink currentPage={currentPage} />
 
       <PokemonCards
-        pokemon={pokemonData}
-        hasFilterNotFoundPokemon={pokemonData.length < 1}
+        pokemon={pokemonData.data}
+        hasFilterNotFoundPokemon={pokemonData.data.length < 1}
       />
 
       <PaginationWithLink currentPage={currentPage} />
