@@ -31,16 +31,29 @@ export async function GET(req: NextRequest) {
   }
 
   const params = req.nextUrl.searchParams;
-  const type1 = params.get('type1');
+  const type1 = params.get('type1')!;
   const type2 = params.get('type2');
 
   try {
-    let type1Response = null;
     let type2Response = null;
-    type1Response = await fetch(`https://pokeapi.co/api/v2/type/${type1}`);
+
+    const type1Response = await fetch(
+      `https://pokeapi.co/api/v2/type/${type1}`,
+      {
+        next: {
+          tags: [type1],
+        },
+      }
+    );
+
     if (!!type2) {
-      type2Response = await fetch(`https://pokeapi.co/api/v2/type/${type2}`);
+      type2Response = await fetch(`https://pokeapi.co/api/v2/type/${type2}`, {
+        next: {
+          tags: [type1, type2],
+        },
+      });
     }
+
     const dataType1: PokemonTypeData[] = await type1Response
       .json()
       .then((res) => res.pokemon);
@@ -51,7 +64,11 @@ export async function GET(req: NextRequest) {
 
     if (!dataType2) {
       const pokemonType1Data = dataType1.map(async (poke) => {
-        const _res = await fetch(poke.pokemon.url);
+        const _res = await fetch(poke.pokemon.url, {
+          next: {
+            tags: ['pokemon-list', type1],
+          },
+        });
         const _poke: PokemonProps = await _res.json();
 
         return {
@@ -73,7 +90,11 @@ export async function GET(req: NextRequest) {
 
     const pokemonTypeIntersection = dataTypeIntersection(dataType1, dataType2);
     const pokemonData = pokemonTypeIntersection.map(async (poke) => {
-      const _res = await fetch(poke.pokemon.url);
+      const _res = await fetch(poke.pokemon.url, {
+        next: {
+          tags: ['pokemon-list', type1, type2!],
+        },
+      });
       const _poke = await _res.json();
 
       return {
@@ -86,6 +107,7 @@ export async function GET(req: NextRequest) {
         types: _poke.types,
       };
     });
+
     const pokemonDataReady: PokemonProps[] = await Promise.all(pokemonData);
 
     return NextResponse.json({

@@ -41,7 +41,7 @@ export function Navbar() {
           </NavbarLink>
           <NavbarLink
             className="transition duration-500 transform translate-x-0 group-data-[expanded=true]:translate-x-8"
-            href="/pokemon"
+            href="/pokemon/1"
           >
             Pokémon
           </NavbarLink>
@@ -73,7 +73,7 @@ export function Navbar() {
         className={`flex flex-col gap-1 absolute left-2 top-2 data-[expanded=true]:animate-pokeball-spawn w-0 data-[expanded=true]:w-fit overflow-hidden`}
       >
         <NavbarLink href="/">Type Advantadges</NavbarLink>
-        <NavbarLink href="/pokemon">Pokémon</NavbarLink>
+        <NavbarLink href="/pokemon/1">Pokémon</NavbarLink>
         <NavbarLink href="/pokecoins">Pokecoin Calculator</NavbarLink>
       </nav>
 

@@ -90,6 +90,7 @@ module.exports = {
       backgroundImage: {
         'gradient-radial':
           'radial-gradient(circle at center, var(--tw-gradient-from) 0%, var(--tw-gradient-to) 100%);',
+        'gradient-none': 'none',
       },
       keyframes: {
         fadeIn: {
@@ -136,6 +137,25 @@ module.exports = {
             rotate: '720deg',
           },
         },
+        pokemonSpawn: {
+          '0%': {
+            filter: 'brightness(8) saturate(0.25)',
+            transform: 'translateY(0%) scale(33%, 33%)',
+          },
+          '50%': {
+            opacity: 1,
+            filter: 'brightness(8) saturate(0.25)',
+            transform: 'translateY(15%) scale(50%, 50%)',
+          },
+          '50%': {
+            filter: 'brightness(6) saturate(0.25)',
+            transform: 'translateY(15%) scale(50%, 50%)',
+          },
+          '100%': {
+            filter: 'brightness(1) saturate(1)',
+            transform: 'translateY(0%) scale(100%, 100%)',
+          },
+        },
         glow: {
           '0%': {
             filter: 'brightness(100%)',
@@ -154,9 +174,9 @@ module.exports = {
       animation: {
         fadeIn: 'fadeIn 200ms linear forwards',
         'pokeball-spawn': 'pokeballSpawn 400ms ease forwards',
-        'pokeball-spawn-mobile':
-          'pokeballSpawnMobile 300ms ease forwards',
+        'pokeball-spawn-mobile': 'pokeballSpawnMobile 300ms ease forwards',
         'pokeball-spin': 'pokeballSpin 300ms ease-in-out forwards',
+        'pokemon-spawn': 'pokemonSpawn 400ms ease-in-out forwards',
         glow: 'glow 1s ease infinite',
       },
       screens: {
@@ -167,4 +187,4 @@ module.exports = {
     },
   },
   plugins: [],
-}
+};
