@@ -20,10 +20,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="flex flex-col font-poppins bg-fixed bg-teal-300 bg-gradient-to-t from-teal-200 from-50% to-lime-100 to-100%">
         <Navbar />
         <main className="w-full flex flex-col gap-8 lg:gap-12 mt-0 lg:mt-20 mb-16 lg:mb-0 pb-14 lg:pb-0">
-          <Suspense fallback={<PokemonLoading />}>
-            {children}
-            <ButtonBackToTop />
-          </Suspense>
+          {children}
+          <ButtonBackToTop />
         </main>
       </body>
     </html>

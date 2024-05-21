@@ -1,17 +1,17 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { PokemonCards } from 'components/PokemonCards';
 import { Pagination } from 'components/Pagination';
 import { Heading } from 'components/global/Heading';
 import { ButtonClose } from 'components/global/ButtonClose';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import { PokemonProps, PokemonResponseProps } from 'entities/Pokemon';
-import { api } from 'services/api';
 import Image from 'next/image';
+import { SelectItemsPerPage } from 'components/SelectItemsPerPage';
 // JSON
 import types from 'json/types.json';
-import { SelectItemsPerPage } from 'components/SelectItemsPerPage';
+import PokemonLoading from './loading';
 
 export default function Pokemon() {
   const [selectedTypes, setSelectedTypes] = useState<[string, string]>([

@@ -44,7 +44,7 @@ export function PokemonCards({
             >
               {/* pokemon name */}
               <strong
-                className="absolute top-0 truncate w-full h-fit bg-gradient-to-br from-blue-200 to-purple-200 text-white group-aria-selected:text-yellow-200 text-xs lg:text-base text-center capitalize font-semibold rounded-md cursor-default"
+                className="absolute top-0 truncate w-full h-fit px-2 bg-gradient-to-br from-blue-200 to-purple-200 text-white group-aria-selected:text-yellow-200 text-xs lg:text-base text-center capitalize font-semibold rounded-md cursor-default"
                 title={poke.name}
               >
                 {poke.name}
