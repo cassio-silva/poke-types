@@ -1,6 +1,29 @@
 import { PaginationWithLink } from 'components/Pagination/PaginationWithLink';
 import { PokemonCards } from 'components/PokemonCards';
 import { PokemonListProps, PokemonProps } from 'entities/Pokemon';
+import PokemonSkeletonLoading from '../loading';
+
+export const revalidate = 300;
+
+export default async function PokemonPage({
+  params,
+}: {
+  params: { page: string };
+}) {
+  const itemsPerPage = 48;
+  const currentPage = Number(params.page) < 1 ? 1 : Number(params.page);
+  const pokemonData = await GetPokemon(params.page, itemsPerPage);
+
+  return (
+    <>
+      <PaginationWithLink currentPage={currentPage} />
+
+      <PokemonCards pokemon={pokemonData.data} />
+
+      <PaginationWithLink currentPage={currentPage} />
+    </>
+  );
+}
 
 async function GetPokemon(
   page: string,
@@ -45,29 +68,4 @@ async function GetPokemon(
     next: response.next,
     previous: response.previous,
   };
-}
-
-export const revalidate = 300;
-
-export default async function PokemonPage({
-  params,
-}: {
-  params: { page: string };
-}) {
-  const itemsPerPage = 48;
-  const currentPage = Number(params.page) < 1 ? 1 : Number(params.page);
-  const pokemonData = await GetPokemon(params.page, itemsPerPage);
-
-  return (
-    <>
-      <PaginationWithLink currentPage={currentPage} />
-
-      <PokemonCards
-        pokemon={pokemonData.data}
-        hasFilterNotFoundPokemon={pokemonData.data.length < 1}
-      />
-
-      <PaginationWithLink currentPage={currentPage} />
-    </>
-  );
 }

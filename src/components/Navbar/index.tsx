@@ -33,13 +33,13 @@ export function Navbar() {
             height={120}
             className="w-full"
             src="/pokeball.png"
-            alt=""
+            alt="pokeball"
             draggable="false"
           />
         </button>
         <nav
           data-expanded={isOpen}
-          className="group flex flex-col w-0 gap-1 absolute left-1/2 bottom-0 transition-all data-[expanded=true]:animate-pokeball-spawn-mobile data-[expanded=false]:animate-[pokeballSpawnMobile_400ms_ease_reverse] data-[expanded=true]:w-fit overflow-hidden data-[expanded=true]:overflow-visible"
+          className="group flex flex-col w-0 gap-1 absolute left-1/2 bottom-0 transition-all delay-100 data-[expanded=true]:animate-pokeball-spawn-mobile data-[expanded=true]:w-fit overflow-hidden data-[expanded=true]:overflow-visible"
         >
           <NavbarLink
             className="transition duration-500 transform translate-x-0 group-data-[expanded=true]:translate-x-16"

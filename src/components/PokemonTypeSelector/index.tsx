@@ -1,29 +1,19 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import types from '../../json/types.json';
-import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { ButtonClose } from 'components/global/ButtonClose';
+import { ChevronDownIcon } from '@heroicons/react/24/solid';
 
-type SelectorProps = {
-  itemsPerPage: number;
-  setItemsPerPage: (value: number) => void;
-};
-
-export function PokemonTypeSelector({
-  params,
-}: {
-  params: { types: Array<string> };
-}) {
+export function PokemonTypeSelector() {
   const router = useRouter();
-  const pathname = usePathname();
   const [selectedTypes, setSelectedTypes] = useState<[string, string]>([
     '',
     '',
   ]);
+  const [isSelectorVisible, setIsSelectorVisible] = useState(true);
 
   function handleTypeSelection(type: string) {
     if (!selectedTypes[0] || (!!selectedTypes[0] && !!selectedTypes[1])) {
@@ -41,6 +31,10 @@ export function PokemonTypeSelector({
     setSelectedTypes(['', '']);
   }
 
+  function toggleVisibility() {
+    setIsSelectorVisible(!isSelectorVisible);
+  }
+
   useEffect(() => {
     if (selectedTypes[0]) {
       router.push('/pokemon/type/' + selectedTypes.join('/'));
@@ -50,19 +44,32 @@ export function PokemonTypeSelector({
   }, [selectedTypes]);
 
   return (
-    <>
-      <section className="w-fit h-fit grid grid-cols-[repeat(6,auto)] lg:grid-cols-9 place-items-center gap-1 mx-auto transition-all">
+    <section className="flex flex-col mx-auto gap-3">
+      <button
+        className="flex w-fit gap-1 items-center justify-center mx-auto px-5 py-1 rounded-xl text-white text-lg font-roboto bg-teal-300"
+        onClick={toggleVisibility}
+        type="button"
+      >
+        Types
+        <ChevronDownIcon
+          className={`w-5 transition ${
+            isSelectorVisible ? 'transform -rotate-180' : ''
+          }`}
+        />
+      </button>
+      <div
+        aria-hidden={!isSelectorVisible}
+        className={`w-fit h-fit max-h-[320px] grid grid-cols-[repeat(6,auto)] lg:grid-cols-9 place-items-center gap-1 mx-auto opacity-100 transition-[max-height_overflow_opacity] duration-500 delay-100 aria-hidden:opacity-0 aria-hidden:max-h-0 aria-hidden:overflow-hidden`}
+      >
         {types.map((type) => (
           <button
             key={type.typeLabel.en}
             onClick={() => handleTypeSelection(type.typeLabel.en)}
-            // aria-expanded={
-            //   type.typeLabel.en === type1 || type.typeLabel.en === type2
-            // }
             aria-expanded={selectedTypes.some(
               (_type) => _type === type.typeLabel.en
             )}
             className="group flex items-center justify-center relative w-[52px] h-[52px] lg:w-16 lg:h-16 bg-white rounded-full p-1 filter brightness-75 transition hover:brightness-100 aria-expanded:brightness-100 aria-expanded:shadow-[0_0_12px_3px_rgba(255,255,255,1)]"
+            aria-label={type.typeLabel.en}
           >
             <Image
               width={80}
@@ -79,11 +86,13 @@ export function PokemonTypeSelector({
             </span>
           </button>
         ))}
-      </section>
+      </div>
       <ButtonClose
         onClick={resetTypes}
         disabled={Boolean(!selectedTypes[0] && !selectedTypes[1])}
+        title="remove selection"
+        aria-label="remove selection"
       />
-    </>
+    </section>
   );
 }
