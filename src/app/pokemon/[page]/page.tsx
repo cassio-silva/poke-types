@@ -1,7 +1,6 @@
 import { PaginationWithLink } from 'components/Pagination/PaginationWithLink';
 import { PokemonCards } from 'components/PokemonCards';
 import { PokemonListProps, PokemonProps } from 'entities/Pokemon';
-import PokemonSkeletonLoading from '../loading';
 
 export const revalidate = 300;
 
@@ -40,6 +39,7 @@ async function GetPokemon(
     {
       method: 'GET',
       next: {
+        tags: ['pokemon', page],
         revalidate: 300,
       },
     }

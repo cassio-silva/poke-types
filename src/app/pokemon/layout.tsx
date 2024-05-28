@@ -9,7 +9,7 @@ export default function PokemonLayout({
 }: {
   children: ReactNode;
   params: {
-    types: Array<string>;
+    types?: Array<string>;
   };
 }) {
   return (
@@ -19,7 +19,7 @@ export default function PokemonLayout({
         Types
       </Heading>
 
-      <PokemonTypeSelector params={params} />
+      <PokemonTypeSelector />
 
       <Suspense fallback={<PokemonLoading />}>
         <section className="flex flex-col w-full gap-3 mx-auto">
