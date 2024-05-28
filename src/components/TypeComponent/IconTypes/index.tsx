@@ -1,14 +1,10 @@
-import Image from 'next/image'
+import Image from 'next/image';
 
 export function IconTypes({ typeArray }: { typeArray: string[] }) {
-  const arrayLength = typeArray.length
+  const arrayLength = typeArray.length;
 
   if (arrayLength < 1) {
-    return (
-      <span className="text-lg text-gray-200 font-bold my-3">
-        None
-      </span>
-    )
+    return <span className="text-lg text-gray-200 font-bold my-3">None</span>;
   }
 
   return (
@@ -22,11 +18,11 @@ export function IconTypes({ typeArray }: { typeArray: string[] }) {
           key={item}
           width={40}
           height={40}
-          quality={100}
+          unoptimized
           src={`/assets/${item}.png`}
           alt={item}
         />
       ))}
     </div>
-  )
+  );
 }
