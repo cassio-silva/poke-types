@@ -23,10 +23,9 @@ export default async function PokemonTypes({
   const pokemonData = await getPokemonByType(type1, type2);
 
   return (
-    <PokemonCards
-      pokemon={pokemonData}
-      hasFilterNotFoundPokemon={pokemonData.length < 1}
-    />
+    <section className="mt-16">
+      <PokemonCards pokemon={pokemonData} />
+    </section>
   );
 }
 

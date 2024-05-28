@@ -1,18 +1,26 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 import { useWindowSize } from 'hooks/useWindowSize';
 import { NavbarLink } from './NavbarLinks';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { width } = useWindowSize();
+  const pathname = usePathname();
 
   function handleToggleMenu() {
     setIsOpen(!isOpen);
   }
 
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
+
   if (width && width <= 768) {
+    // MOBILE NAV MENU
     return (
       <header className="flex flex-row justify-center items-center w-full px-4 py-2 bg-gradient-radial from-lime-100 to-teal-200 fixed bottom-0 shadow-[0px_3px_6px_2px_rgba(0,0,0,0.25)] z-[200]">
         <button
@@ -25,13 +33,13 @@ export function Navbar() {
             height={120}
             className="w-full"
             src="/pokeball.png"
-            alt=""
+            alt="pokeball"
             draggable="false"
           />
         </button>
         <nav
           data-expanded={isOpen}
-          className="group flex flex-col gap-1 absolute left-1/2 bottom-0 data-[expanded=true]:animate-pokeball-spawn-mobile transition-all w-0 data-[expanded=true]:w-fit overflow-hidden data-[expanded=true]:overflow-visible"
+          className="group flex flex-col w-0 gap-1 absolute left-1/2 bottom-0 transition-all delay-100 data-[expanded=true]:animate-pokeball-spawn-mobile data-[expanded=true]:w-fit overflow-hidden data-[expanded=true]:overflow-visible"
         >
           <NavbarLink
             className="transition duration-500 transform translate-x-0 group-data-[expanded=true]:translate-x-16"
@@ -51,6 +59,7 @@ export function Navbar() {
     );
   }
 
+  // DESKTOP NAV MENU
   return (
     <header className="flex flex-row justify-start items-center w-full px-4 py-4 bg-gradient-radial from-lime-100 to-teal-200 fixed top-0 shadow-[0px_3px_6px_2px_rgba(0,0,0,0.25)] z-[200]">
       <button
