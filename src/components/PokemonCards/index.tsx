@@ -62,7 +62,7 @@ export function PokemonCards({ pokemon }: PokemonCardProps) {
                   alt={item.type.name}
                   width={60}
                   height={60}
-                  // quality={70}
+                  unoptimized
                   draggable="false"
                   className="w-8 h-8 rounded-full p-0.5 bg-white shadow-lg"
                 />
@@ -93,7 +93,7 @@ function PokemonCardImage({
         alt={name}
         width={100}
         height={100}
-        // quality={80}
+        unoptimized
         draggable="false"
         className="w-20 h-w-20 m-auto"
       />
@@ -127,7 +127,7 @@ function PokemonCardImage({
       alt={name}
       width={96}
       height={96}
-      // quality={90}
+      unoptimized
       draggable="false"
       className="w-full h-fit m-auto mobile:mb-0 desktop:mb-2 cursor-pointer place-self-end"
     />
